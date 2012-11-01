@@ -1,0 +1,15 @@
+[25-Oct-2012 07:06:46] PHP Warning:  Unknown: open_basedir restriction in effect. File(/www/lilkarthur.16mb.com/virt-icq.php) is not within the allowed path(s): (/home/:/usr/lib/php:/tmp) in Unknown on line 0
+[25-Oct-2012 07:06:46] PHP Warning:  Unknown: failed to open stream: Operation not permitted in Unknown on line 0
+[25-Oct-2012 07:06:46] PHP Fatal error:  Unknown: Failed opening required '/www/lilkarthur.16mb.com/virt-icq.php' (include_path='.:/usr/lib/php:/usr/local/lib/php') in Unknown on line 0
+[26-Oct-2012 07:11:16] PHP Warning:  Unknown: open_basedir restriction in effect. File(/www/lilkarthur.16mb.com/samie-dorogie-igri-na-iphone.php) is not within the allowed path(s): (/home/:/usr/lib/php:/tmp) in Unknown on line 0
+[26-Oct-2012 07:11:16] PHP Warning:  Unknown: failed to open stream: Operation not permitted in Unknown on line 0
+[26-Oct-2012 07:11:16] PHP Fatal error:  Unknown: Failed opening required '/www/lilkarthur.16mb.com/samie-dorogie-igri-na-iphone.php' (include_path='.:/usr/lib/php:/usr/local/lib/php') in Unknown on line 0
+[26-Oct-2012 13:37:36] PHP Warning:  Unknown: open_basedir restriction in effect. File(/www/lilkarthur.16mb.com/besplatnie-polnie-igri-na-telefon.php) is not within the allowed path(s): (/home/:/usr/lib/php:/tmp) in Unknown on line 0
+[26-Oct-2012 13:37:36] PHP Warning:  Unknown: failed to open stream: Operation not permitted in Unknown on line 0
+[26-Oct-2012 13:37:36] PHP Fatal error:  Unknown: Failed opening required '/www/lilkarthur.16mb.com/besplatnie-polnie-igri-na-telefon.php' (include_path='.:/usr/lib/php:/usr/local/lib/php') in Unknown on line 0
+[30-Oct-2012 06:26:05] PHP Warning:  Unknown: open_basedir restriction in effect. File(/www/lilkarthur.16mb.com/power-aimp-android.php) is not within the allowed path(s): (/home/:/usr/lib/php:/tmp) in Unknown on line 0
+[30-Oct-2012 06:26:05] PHP Warning:  Unknown: failed to open stream: Operation not permitted in Unknown on line 0
+[30-Oct-2012 06:26:05] PHP Fatal error:  Unknown: Failed opening required '/www/lilkarthur.16mb.com/power-aimp-android.php' (include_path='.:/usr/lib/php:/usr/local/lib/php') in Unknown on line 0
+[30-Oct-2012 14:17:53] PHP Warning:  Unknown: open_basedir restriction in effect. File(/www/lilkarthur.16mb.com/java-android-programmirovanie.php) is not within the allowed path(s): (/home/:/usr/lib/php:/tmp) in Unknown on line 0
+[30-Oct-2012 14:17:53] PHP Warning:  Unknown: failed to open stream: Operation not permitted in Unknown on line 0
+[30-Oct-2012 14:17:53] PHP Fatal error:  Unknown: Failed opening required '/www/lilkarthur.16mb.com/java-android-programmirovanie.php' (include_path='.:/usr/lib/php:/usr/local/lib/php') in Unknown on line 0
