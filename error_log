@@ -1,3 +1,0 @@
-[24-Oct-2012 21:36:18] PHP Warning:  Unknown: open_basedir restriction in effect. File(/www/legkourokiklass.16mb.com/perevorot-v-estestvoznanii.html) is not within the allowed path(s): (/home/:/usr/lib/php:/tmp) in Unknown on line 0
-[24-Oct-2012 21:36:18] PHP Warning:  Unknown: failed to open stream: Operation not permitted in Unknown on line 0
-[24-Oct-2012 21:36:18] PHP Fatal error:  Unknown: Failed opening required '/www/legkourokiklass.16mb.com/perevorot-v-estestvoznanii.html' (include_path='.:/usr/lib/php:/usr/local/lib/php') in Unknown on line 0
