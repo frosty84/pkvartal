@@ -45,7 +45,7 @@ if ($config['cron_lock'])
 	$time = explode(' ', $config['cron_lock']);
 	$time = $time[0];
 
-	if ($time + 3600 >= time())
+	if ($time + 1800 >= time())
 	{
 		exit;
 	}

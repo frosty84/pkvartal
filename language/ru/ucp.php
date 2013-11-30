@@ -560,4 +560,11 @@ $lang = array_merge($lang, array(
 	'NO_NONMEMBER'	=> 'Нет пустых групп',
 ));
 
+// BEGIN mChat Mod
+$lang = array_merge($lang, array(
+    'UCP_CAT_MCHAT'        => 'mChat',
+    'UCP_MCHAT_CONFIG'    => 'Настройки',
+));
+// END mChat Mod
+
 ?>

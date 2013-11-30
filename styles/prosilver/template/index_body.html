@@ -4,6 +4,7 @@
 <!-- IF U_MCP --><p>{CURRENT_TIME} <br />[&nbsp;<a href="{U_MCP}">{L_MCP}</a>&nbsp;]</p><!-- ELSEIF S_USER_LOGGED_IN --><p>{CURRENT_TIME}</p><!-- ENDIF -->
 
 <!-- IF RECENT_TOPICS_DISPLAY --><!-- INCLUDE recent_topics_body.html --><!-- ENDIF -->
+<!-- IF S_MCHAT_ON_INDEX_WIDGET --><!-- INCLUDE mchat_widget.html --><!-- ENDIF -->
 <!-- IF S_DISPLAY_SEARCH or (S_USER_LOGGED_IN and not S_IS_BOT) -->
 <ul class="linklist">
 	<!-- IF S_DISPLAY_SEARCH -->
@@ -13,7 +14,9 @@
 </ul>
 <!-- ENDIF -->
 
+<!-- IF S_MCHAT_ENABLE and S_MCHAT_ON_INDEX and S_MCHAT_LOCATION --><!-- INCLUDE mchat_body.html --><!-- ENDIF -->
 <!-- INCLUDE forumlist_body.html -->
+<!-- IF S_MCHAT_ENABLE and S_MCHAT_ON_INDEX and not S_MCHAT_LOCATION --><!-- INCLUDE mchat_body.html --><!-- ENDIF -->
 
 <!-- IF not S_USER_LOGGED_IN and not S_IS_BOT -->
 	<form method="post" action="{S_LOGIN_ACTION}" class="headerspace">
@@ -36,9 +39,17 @@
 	<!-- IF LEGEND --><br /><em>{L_LEGEND}: {LEGEND}</em><!-- ENDIF --></p>
 <!-- ENDIF -->
 
+<!-- IF S_MCHAT_INDEX_STATS -->
+<!-- INCLUDE mchat_stats.html -->
+<!-- ENDIF -->
 <!-- IF S_DISPLAY_BIRTHDAY_LIST and BIRTHDAY_LIST -->
 	<h3>{L_BIRTHDAYS}</h3>
 	<p><!-- IF BIRTHDAY_LIST -->{L_CONGRATULATIONS}: <strong>{BIRTHDAY_LIST}</strong><!-- ELSE -->{L_NO_BIRTHDAYS}<!-- ENDIF --></p>
+<!-- ENDIF -->
+
+<!-- IF S_THANKS_LIST -->
+    <h3>{L_TOP_THANKS_LIST}</h3>
+    <p>{THANKS_LIST}</p>
 <!-- ENDIF -->
 
 <!-- IF NEWEST_USER -->

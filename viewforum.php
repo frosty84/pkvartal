@@ -553,6 +553,15 @@ $template->assign_vars(array(
 $topic_list = ($store_reverse) ? array_merge($announcement_list, array_reverse($topic_list)) : array_merge($announcement_list, $topic_list);
 $topic_tracking_info = $tracking_topics = array();
 
+if (!function_exists('get_max_topic_thanks'))
+{
+    include($phpbb_root_path . 'includes/functions_thanks.' . $phpEx);
+}
+get_max_topic_thanks();
+if ($topic_list)
+{
+    get_thanks_topic_number();
+}
 // Okay, lets dump out the page ...
 if (sizeof($topic_list))
 {
@@ -710,7 +719,7 @@ if (sizeof($topic_list))
 
 			'S_TOPIC_TYPE_SWITCH'	=> ($s_type_switch == $s_type_switch_test) ? -1 : $s_type_switch_test)
 		);
-
+        get_thanks_topic_reput($topic_id);
 		$s_type_switch = ($row['topic_type'] == POST_ANNOUNCE || $row['topic_type'] == POST_GLOBAL) ? 1 : 0;
 
 		if ($unread_topic)

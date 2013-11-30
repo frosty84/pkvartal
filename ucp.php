@@ -312,6 +312,12 @@ if ($module->is_active('zebra', 'friends'))
 if (!$config['allow_topic_notify'] && !$config['allow_forum_notify'])
 {
 	$module->set_display('main', 'subscribed', false);
+    // BEGIN mChat Mod
+    if (!$config['mchat_enable'])
+    {
+        $module->set_display('mchat', '', false);
+    }    
+    // END mChat Mod
 }
 
 // Do not display signature panel if not authed to do so

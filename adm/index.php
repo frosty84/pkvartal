@@ -50,6 +50,11 @@ $file_uploads	= (@ini_get('file_uploads') == '1' || strtolower(@ini_get('file_up
 $module_id		= request_var('i', '');
 $mode			= request_var('mode', '');
 
+global $config;
+if($_REQUEST['i'] == 'email_html' && $config['email_function_name'] == 'mail'){
+    @ini_set('max_execution_time', 3000); //3000 seconds = 50 minutes
+}
+
 // Set custom template for admin area
 $template->set_custom_template($phpbb_admin_path . 'style', 'admin');
 $template->assign_var('T_TEMPLATE_PATH', $phpbb_admin_path . 'style');

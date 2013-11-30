@@ -51,6 +51,8 @@ class ucp_prefs
 					'notifypm'		=> request_var('notifypm', (bool) $user->data['user_notify_pm']),
 					'popuppm'		=> request_var('popuppm', (bool) $user->optionget('popuppm')),
 					'allowpm'		=> request_var('allowpm', (bool) $user->data['user_allow_pm']),
+                    'allowthankspm'    => request_var('allowthankspm', (bool) (isset($user->data['user_allow_thanks_pm']) ? $user->data['user_allow_thanks_pm'] : false)),
+                    'allowthanksemail'    => request_var('allowthanksemail', (bool) (isset($user->data['user_allow_thanks_email']) ? $user->data['user_allow_thanks_pm'] : false)),                    
 				);
 
 				if ($data['notifymethod'] == NOTIFY_IM && (!$config['jab_enable'] || !$user->data['user_jabber'] || !@extension_loaded('xml')))
@@ -94,6 +96,14 @@ class ucp_prefs
 							'user_style'			=> $data['style'],
 						);
 
+                        if (isset($user->data['user_allow_thanks_pm']) && isset($user->data['user_allow_thanks_email']))
+                        {
+                            $sql_ary = array_merge($sql_ary, array(
+                                'user_allow_thanks_pm'    => $data['allowthankspm'],
+                                'user_allow_thanks_email'=> $data['allowthanksemail'],
+                            ));        
+                        }                        
+
 						$sql = 'UPDATE ' . USERS_TABLE . '
 							SET ' . $db->sql_build_array('UPDATE', $sql_ary) . '
 							WHERE user_id = ' . $user->data['user_id'];
@@ -136,6 +146,9 @@ class ucp_prefs
 					'S_VIEW_EMAIL'		=> $data['viewemail'],
 					'S_MASS_EMAIL'		=> $data['massemail'],
 					'S_ALLOW_PM'		=> $data['allowpm'],
+                    'S_ALLOW_THANKS_PM'    => $data['allowthankspm'],
+                    'S_ALLOW_THANKS_EMAIL'=> $data['allowthanksemail'],
+                    'S_THANKS_NOTICE_ON'=> isset($config['thanks_notice_on']) ? $config['thanks_notice_on'] : false,                    
 					'S_HIDE_ONLINE'		=> $data['hideonline'],
 					'S_NOTIFY_PM'		=> $data['notifypm'],
 					'S_POPUP_PM'		=> $data['popuppm'],

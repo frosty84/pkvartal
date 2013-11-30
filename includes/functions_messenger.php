@@ -31,6 +31,7 @@ class messenger
 	var $tpl_obj = NULL;
 	var $tpl_msg = array();
 	var $eol = "\n";
+    var $use_html = false;
 
 	/**
 	* Constructor
@@ -41,6 +42,7 @@ class messenger
 
 		$this->use_queue = (!$config['email_package_size']) ? false : $use_queue;
 		$this->subject = '';
+        $this->use_html = false;
 
 		// Determine EOL character (\n for UNIX, \r\n for Windows and \r for Mac)
 		$this->eol = (!defined('PHP_EOL')) ? (($eol = strtolower(substr(PHP_OS, 0, 3))) == 'win') ? "\r\n" : (($eol == 'mac') ? "\r" : "\n") : PHP_EOL;
@@ -169,6 +171,14 @@ class messenger
 	{
 		$this->mail_priority = $priority;
 	}
+    
+    /**
+    * Set the email html
+    */
+    function set_mail_html($html = false)
+    {
+        $this->use_html = $html;
+    }
 
 	/**
 	* Set email template to use
@@ -266,9 +276,15 @@ class messenger
 
 		if (!isset($this->vars['EMAIL_SIG']))
 		{
-			$this->assign_vars(array(
-				'EMAIL_SIG'	=> str_replace('<br />', "\n", "-- \n" . htmlspecialchars_decode($config['board_email_sig'])),
-			));
+			if ($this->use_html){
+                $this->assign_vars(array(
+                    'EMAIL_SIG'    => nl2br(str_replace('<br />', "\n", "-- \n" . htmlspecialchars_decode($config['board_email_sig']))),
+                ));
+            }else{
+                $this->assign_vars(array(
+                    'EMAIL_SIG'    => str_replace('<br />', "\n", "-- \n" . htmlspecialchars_decode($config['board_email_sig'])),
+                ));
+            }
 		}
 
 		if (!isset($this->vars['SITENAME']))
@@ -401,7 +417,11 @@ class messenger
 		$headers[] = 'MIME-Version: 1.0';
 		$headers[] = 'Message-ID: <' . md5(unique_id(time())) . '@' . $config['server_name'] . '>';
 		$headers[] = 'Date: ' . date('r', time());
-		$headers[] = 'Content-Type: text/plain; charset=UTF-8'; // format=flowed
+		if ($this->use_html){
+            $headers[] = 'Content-Type: text/html; charset=UTF-8'; // format=flowed
+        }else{
+            $headers[] = 'Content-Type: text/plain; charset=UTF-8'; // format=flowed
+        }
 		$headers[] = 'Content-Transfer-Encoding: 8bit'; // 7bit
 
 		$headers[] = 'X-Priority: ' . $this->mail_priority;
@@ -1618,7 +1638,10 @@ function phpbb_mail($to, $subject, $msg, $headers, $eol, &$err_msg)
 	// On some PHP Versions mail() *may* fail if there are newlines within the subject.
 	// Newlines are used as a delimiter for lines in mail_encode() according to RFC 2045 section 6.8.
 	// Because PHP can't decide what is wanted we revert back to the non-RFC-compliant way of separating by one space (Use '' as parameter to mail_encode() results in SPACE used)
-	$result = $config['email_function_name']($to, mail_encode($subject, ''), wordwrap(utf8_wordwrap($msg), 997, "\n", true), $headers);
+	$result = $config['email_function_name']($to, mail_encode($subject, ''), wordwrap(utf8_wordwrap($msg), 997, "\n", true), $headers);   
+    if($config['email_function_name'] == 'mail'){
+        sleep(3);
+    }
 	$err_msg = ob_get_clean();
 
 	return $result;

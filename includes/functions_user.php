@@ -347,7 +347,13 @@ function user_delete($mode, $user_id, $post_username = false)
 	{
 		return false;
 	}
-
+    // BEGIN mChat mod
+    if (!function_exists('mchat_user_fix'))
+    {
+        include($phpbb_root_path . 'includes/functions_mchat.' . $phpEx);
+    }
+    mchat_user_fix($user_id);
+    // END mChat mod
 	// Before we begin, we will remove the reports the user issued.
 	$sql = 'SELECT r.post_id, p.topic_id
 		FROM ' . REPORTS_TABLE . ' r, ' . POSTS_TABLE . ' p

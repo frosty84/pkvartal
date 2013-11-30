@@ -585,7 +585,7 @@ function make_clickable_callback($type, $whitespace, $url, $relative_url, $class
 		break;
 	}
 
-	$short_url = (strlen($url) > 55) ? substr($url, 0, 39) . ' ... ' . substr($url, -10) : $url;
+	$short_url = (utf8_strlen($url) > 55) ? utf8_substr($url, 0, 39) . ' ... ' . utf8_substr($url, -10) : $url;
 
 	switch ($type)
 	{
@@ -659,15 +659,15 @@ function make_clickable($text, $server_url = false, $class = 'postlink')
 		// Be sure to not let the matches cross over. ;)
 
 		// relative urls for this board
-		$magic_url_match[] = '#(^|[\n\t (>.])(' . preg_quote($server_url, '#') . ')/(' . get_preg_expression('relative_url_inline') . ')#ie';
+		$magic_url_match[] = '#(^|[\n\t (>.])(' . preg_quote($server_url, '#') . ')/(' . get_preg_expression('relative_url_inline') . ')#ieu';
 		$magic_url_replace[] = "make_clickable_callback(MAGIC_URL_LOCAL, '\$1', '\$2', '\$3', '$local_class')";
 
 		// matches a xxxx://aaaaa.bbb.cccc. ...
-		$magic_url_match[] = '#(^|[\n\t (>.])(' . get_preg_expression('url_inline') . ')#ie';
+		$magic_url_match[] = '#(^|[\n\t (>.])(' . get_preg_expression('url_inline') . ')#ieu';
 		$magic_url_replace[] = "make_clickable_callback(MAGIC_URL_FULL, '\$1', '\$2', '', '$class')";
 
 		// matches a "www.xxxx.yyyy[/zzzz]" kinda lazy URL thing
-		$magic_url_match[] = '#(^|[\n\t (>])(' . get_preg_expression('www_url_inline') . ')#ie';
+		$magic_url_match[] = '#(^|[\n\t (>])(' . get_preg_expression('www_url_inline') . ')#ieu';
 		$magic_url_replace[] = "make_clickable_callback(MAGIC_URL_WWW, '\$1', '\$2', '', '$class')";
 
 		// matches an email@domain type address at the start of a line, or after a space or after what might be a BBCode.
@@ -732,6 +732,16 @@ function bbcode_nl2br($text)
 function smiley_text($text, $force_option = false)
 {
 	global $config, $user, $phpbb_root_path;
+
+	//-- mod: Prime Links -------------------------------------------------------//
+	if (!function_exists('prime_links'))
+	{
+		global $phpEx;
+		include($phpbb_root_path . 'includes/prime_links.' . $phpEx);
+	}
+	$text = prime_links($text);
+	//-- end: Prime Links -------------------------------------------------------//
+
 
 	if ($force_option || !$config['allow_smilies'] || !$user->optionget('viewsmilies'))
 	{
@@ -984,6 +994,7 @@ function parse_attachments($forum_id, &$message, &$attachments, &$update_count, 
 					$block_array += array(
 						'S_THUMBNAIL'		=> true,
 						'THUMB_IMAGE'		=> $thumbnail_link,
+						'THUMB_POST_ID'      => $attachment['post_msg_id'],
 					);
 
 					$update_count[] = $attachment['attach_id'];

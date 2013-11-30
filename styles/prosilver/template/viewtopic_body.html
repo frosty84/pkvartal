@@ -130,6 +130,9 @@
 					<!-- IF postrow.U_WARN --><li class="warn-icon"><a href="{postrow.U_WARN}" title="{L_WARN_USER}"><span>{L_WARN_USER}</span></a></li><!-- ENDIF -->
 					<!-- IF postrow.U_INFO --><li class="info-icon"><a href="{postrow.U_INFO}" title="{L_INFORMATION}"><span>{L_INFORMATION}</span></a></li><!-- ENDIF -->
 					<!-- IF postrow.U_QUOTE --><li class="quote-icon"><a href="{postrow.U_QUOTE}" title="{L_REPLY_WITH_QUOTE}"><span>{L_REPLY_WITH_QUOTE}</span></a></li><!-- ENDIF -->
+                    <!-- IF  not postrow.S_FIRST_POST_ONLY or (not START and postrow.S_ROW_COUNT == 0) -->
+                        <!-- IF not postrow.S_GLOBAL_POST_THANKS and not postrow.S_POST_ANONYMOUS and postrow.S_FORUM_THANKS and S_USER_LOGGED_IN and not postrow.S_IS_OWN_POST and (not postrow.S_ALREADY_THANKED or postrow.S_REMOVE_THANKS) --><li class="{postrow.THANKS_IMG}"><a href="{postrow.THANKS_LINK}" title="{postrow.THANK_ALT}{postrow.POST_AUTHOR}"></a></li><!-- ENDIF -->                
+                    <!-- ENDIF -->                    
 				</ul>
 			<!-- ENDIF -->
 		<!-- ENDIF -->
@@ -165,6 +168,32 @@
 			<!-- IF postrow.BUMPED_MESSAGE --><div class="notice"><br /><br />{postrow.BUMPED_MESSAGE}</div><!-- ENDIF -->
 			<!-- IF postrow.SIGNATURE --><div id="sig{postrow.POST_ID}" class="signature">{postrow.SIGNATURE}</div><!-- ENDIF -->
 		<!-- ENDIF -->
+        <!-- IF postrow.THANKS and postrow.THANKS_POSTLIST_VIEW -->
+            <hr />
+            <!-- IF not postrow.S_POST_ANONYMOUS and not S_IS_BOT and postrow.S_MOD_THANKS -->
+            <ul class="profile-icons" style="float:left"><li class="delete-icon"><a href="{postrow.U_CLEAR_LIST_THANKS_POST}" title="{L_CLEAR_LIST_THANKS}"><span>{L_CLEAR_LIST_THANKS}</span></a></li></ul>
+            <!-- ENDIF -->
+            <div class="content">
+                <!-- IF not postrow.S_POST_ANONYMOUS and not S_IS_BOT-->
+                <dl class="postbody small">
+                    <dt>{postrow.THANK_TEXT}{postrow.POST_AUTHOR_FULL}{postrow.THANK_TEXT_2}</dt>
+                    <dd>{postrow.THANKS}</dd>
+                </dl>
+                <!-- ENDIF -->    
+            </div>
+        <!-- ENDIF -->
+        <!-- IF postrow.S_THANKS_POST_REPUT_VIEW and postrow.POST_REPUT and not postrow.S_POST_ANONYMOUS and not S_IS_BOT -->
+            <div class="content">
+                <dl class="postbody">
+                    <dt class="small"><strong>{L_REPUT}:</strong>&nbsp;{postrow.POST_REPUT}</dt>
+                    <dd>
+                    <!-- IF postrow.S_THANKS_REPUT_GRAPHIC -->
+                    <div style="width: {postrow.THANKS_REPUT_GRAPHIC_WIDTH}; height: {postrow.THANKS_REPUT_HEIGHT}; background:  url({postrow.THANKS_REPUT_IMAGE_BACK}); background-repeat: repeat-x;"><div style="height: {postrow.THANKS_REPUT_HEIGHT}; width: {postrow.POST_REPUT}; background: url({postrow.THANKS_REPUT_IMAGE}); background-repeat: repeat-x;"></div></div>&nbsp;
+                    <!-- ENDIF -->
+                    </dd>
+                </dl>
+            </div>
+        <!-- ENDIF -->        
 
 		</div>
 
@@ -184,6 +213,10 @@
 		<!-- IF postrow.POSTER_POSTS != '' --><dd><strong>{L_POSTS}:</strong> {postrow.POSTER_POSTS}</dd><!-- ENDIF -->
 		<!-- IF postrow.POSTER_JOINED --><dd><strong>{L_JOINED}:</strong> {postrow.POSTER_JOINED}</dd><!-- ENDIF -->
 		<!-- IF postrow.POSTER_FROM --><dd><strong>{L_LOCATION}:</strong> {postrow.POSTER_FROM}</dd><!-- ENDIF -->
+        <!-- IF not postrow.S_POST_ANONYMOUS and postrow.THANKS_COUNTERS_VIEW -->
+            <dd><strong>{L_GIVEN}:</strong><!-- IF postrow.POSTER_GIVE_COUNT < 1 --> {postrow.POSTER_GIVE_COUNT} {L_THANK}<!-- ELSEIF postrow.POSTER_GIVE_COUNT > 1 --> <a href="{postrow.POSTER_GIVE_COUNT_LINK}">{postrow.POSTER_GIVE_COUNT}</a> {L_THANKS}<!-- ELSE --> <a href="{postrow.POSTER_GIVE_COUNT_LINK}">{postrow.POSTER_GIVE_COUNT}</a> {L_THANK}<!-- ENDIF --></dd>
+            <dd><strong>{L_RECEIVED}:</strong><!-- IF postrow.POSTER_RECEIVE_COUNT < 1 --> {postrow.POSTER_RECEIVE_COUNT} {L_THANK}<!-- ELSEIF postrow.POSTER_RECEIVE_COUNT > 1 --> <a href="{postrow.POSTER_RECEIVE_COUNT_LINK}">{postrow.POSTER_RECEIVE_COUNT}</a> {L_THANKS}<!-- ELSE --> <a href="{postrow.POSTER_RECEIVE_COUNT_LINK}">{postrow.POSTER_RECEIVE_COUNT}</a> {L_THANK}<!-- ENDIF --></dd>
+        <!-- ENDIF -->        
 
 		<!-- IF postrow.S_PROFILE_FIELD1 -->
 			<!-- Use a construct like this to include admin defined profile fields. Replace FIELD1 with the name of your field. -->

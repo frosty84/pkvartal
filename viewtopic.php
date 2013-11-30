@@ -663,6 +663,7 @@ $template->assign_vars(array(
 
 	'PAGINATION' 	=> $pagination,
 	'PAGE_NUMBER' 	=> on_page($total_posts, $config['posts_per_page'], $start),
+    'START'         => $start,    
 	'TOTAL_POSTS'	=> ($total_posts == 1) ? $user->lang['VIEW_TOPIC_POST'] : sprintf($user->lang['VIEW_TOPIC_POSTS'], $total_posts),
 	'U_MCP' 		=> ($auth->acl_get('m_', $forum_id)) ? append_sid("{$phpbb_root_path}mcp.$phpEx", "i=main&amp;mode=topic_view&amp;f=$forum_id&amp;t=$topic_id" . (($start == 0) ? '' : "&amp;start=$start") . ((strlen($u_sort_param)) ? "&amp;$u_sort_param" : ''), true, $user->session_id) : '',
 	'MODERATORS'	=> (isset($forum_moderators[$forum_id]) && sizeof($forum_moderators[$forum_id])) ? implode(', ', $forum_moderators[$forum_id]) : '',
@@ -1208,6 +1209,8 @@ while ($row = $db->sql_fetchrow($result))
 
 				'viewonline'	=> $row['user_allow_viewonline'],
 				'allow_pm'		=> $row['user_allow_pm'],
+                'allow_thanks_pm' => isset($row['user_allow_thanks_pm']) ? $row['user_allow_thanks_pm'] : false,
+                'allow_thanks_email' => isset($row['user_allow_thanks_email']) ? $row['user_allow_thanks_email'] : false,                
 
 				'avatar'		=> ($user->optionget('viewavatars')) ? get_user_avatar($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']) : '',
 				'age'			=> '',
@@ -1411,6 +1414,23 @@ $template->assign_vars(array(
 	'S_NUM_POSTS' => sizeof($post_list))
 );
 
+if (!function_exists('array_all_thanks'))
+{
+    include($phpbb_root_path . 'includes/functions_thanks.' . $phpEx);
+}
+array_all_thanks($post_list);
+if (isset($_REQUEST['thanks']) && !isset($_REQUEST['rthanks'])) 
+{
+    insert_thanks(request_var('thanks', 0), $user->data['user_id']);
+}
+if (isset($_REQUEST['rthanks']) && !isset($_REQUEST['thanks']))
+{
+    delete_thanks(request_var('rthanks', 0), $user->data['user_id']);
+}
+if (isset($_REQUEST['list_thanks'])) 
+{
+    clear_list_thanks(request_var('p', 0), request_var('list_thanks', ''));
+}
 // Output the posts
 $first_unread = $post_unread = false;
 for ($i = 0, $end = sizeof($post_list); $i < $end; ++$i)
@@ -1655,6 +1675,7 @@ for ($i = 0, $end = sizeof($post_list); $i < $end; ++$i)
 		'S_IGNORE_POST'		=> ($row['hide_post']) ? true : false,
 		// www.phpBB-SEO.com SEO TOOLKIT BEGIN
 		'L_IGNORE_POST'		=> ($row['hide_post']) ? sprintf($user->lang['POST_BY_FOE'], get_username_string('full', $poster_id, $row['username'], $row['user_colour'], $row['post_username']), '<a href="' . append_sid("{$phpbb_root_path}viewtopic.$phpEx", "f=$forum_id&amp;t=$topic_id&amp;p={$row['post_id']}&amp;view=show") . '#p' . $row['post_id'] . '">', '</a>') : '',
+        'S_FORUM_THANKS'    => ($auth->acl_get('f_thanks', $forum_id)) ? true : false,
 		// www.phpBB-SEO.com SEO TOOLKIT END
 	);
     
@@ -1663,6 +1684,7 @@ for ($i = 0, $end = sizeof($post_list); $i < $end; ++$i)
         $zvloop++;
     }
 
+    output_thanks($row['user_id']);
 	if (isset($cp_row['row']) && sizeof($cp_row['row']))
 	{
 		$postrow = array_merge($postrow, $cp_row['row']);

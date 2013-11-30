@@ -277,6 +277,15 @@ define('WORDS_TABLE',				$table_prefix . 'words');
 define('ZEBRA_TABLE',				$table_prefix . 'zebra');
 
 // Additional tables
+// BEGIN mChat Mod
+define('MCHAT_TABLE',                $table_prefix . 'mchat');
+define('MCHAT_CONFIG_TABLE',        $table_prefix . 'mchat_config');
+define('MCHAT_SESSIONS_TABLE',            $table_prefix . 'mchat_sessions');
+// END mChat Mod
+define('THANKS_TABLE', $table_prefix . 'thanks');
 define('SHARE_TOPIC_TABLE',				$table_prefix . 'share');
-
+define('MAIL_TABLE',                $table_prefix . 'mail');
+//Podvozilka
+define('PODVOZILKA_PLACES_TABLE', $table_prefix . 'podvozilka_places');
+define('PODVOZILKA_EVENTS_TABLE', $table_prefix . 'podvozilka_events');
 ?>

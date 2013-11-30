@@ -121,6 +121,9 @@ $lang = array_merge($lang, array(
 	'ACP_MANAGE_REASONS'		=> 'Управление жалобами',
 	'ACP_MANAGE_USERS'			=> 'Управление пользователями',
 	'ACP_MASS_EMAIL'			=> 'Массовая рассылка почты',
+    'ACP_MASS_EMAIL_HTML'       => 'Массовая рассылка HTML',
+    'ACP_MASS_EMAIL_HTML_DO'    => 'Создать рассылку HTML',
+    'ACP_MASS_EMAIL_HTML_VIEW'  => 'Редактировать сообщения рассылки HTML',
 	'ACP_MESSAGES'				=> 'Сообщения',
 	'ACP_MESSAGE_SETTINGS'		=> 'Личные сообщения',
 	'ACP_MODULE_MANAGEMENT'		=> 'Управление модулями',
@@ -747,5 +750,13 @@ $lang = array_merge($lang, array(
 	'LOG_WORD_DELETE'		=> '<strong>Удалён цензор слов</strong><br />» %s',
 	'LOG_WORD_EDIT'			=> '<strong>Изменён цензор слов</strong><br />» %s',
 ));
+
+// BEGIN mChat Mod
+$lang = array_merge($lang, array(
+    // Prune Feature
+    'LOG_MCHAT_TABLE_PRUNED'    => 'Таблица mChat была обрезана',
+    'ACP_USER_MCHAT'            => 'Настройки mChat',
+));
+// END mChat Mod
 
 ?>

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="{S_CONTENT_DIRECTION}" lang="{S_USER_LANG}" xml:lang="{S_USER_LANG}">
 <head>
 {SEO_BASE_HREF}
@@ -8,7 +8,7 @@
 <meta http-equiv="imagetoolbar" content="no" />
 <meta name="resource-type" content="document" />
 <meta name="distribution" content="global" />
-<meta name="keywords" content="Пражский,квартал,Комплек,ЖК,Празький,Новостройки,Жилье,Киев,Борщаговка,квартира" />
+<meta name="keywords" content="Пражский Квартал, Львовский квартал, ЖК Аметист, форум" />
 <meta name="description" content="<!-- IF SCRIPT_NAME == "viewforum" -->{FORUM_DESC}<!-- ELSEIF SCRIPT_NAME == "viewtopic" -->{MESSAGE_TRIMMED}<!-- ELSE -->Неофициальный форум ЖК Пражский Квартал, Неофіційний форум ЖК Празький Квартал, Жилье в киеве, новостройки Киева, Петропавловская борщаговка, Обсуждение Пражского Квартала<!-- ENDIF -->" />
 {META}
 <title><!-- IF S_IN_MCP -->{L_MCP} &bull; <!-- ELSEIF S_IN_UCP -->{L_UCP} &bull; <!-- ENDIF -->
@@ -23,6 +23,7 @@
    <!-- ELSEIF SCRIPT_NAME == "memberlist" --><!-- IF S_USER_LOGGED_IN -->{PAGE_TITLE}
     <!-- IF S_SHOW_GROUP --> - {GROUP_NAME}<!-- ENDIF --> | {SITENAME}<!-- ELSE -->{SITENAME}<!-- ENDIF -->
    <!-- ELSEIF SCRIPT_NAME == "chat" -->{L_VIEWING_CHAT}
+   <!-- ELSEIF SCRIPT_NAME == "mchat" -->{L_MCHAT_TITLE}
    <!-- ELSE -->Viewing Undefined page<!-- ENDIF --></title>
 
 <!-- IF S_ENABLE_FEEDS -->
@@ -56,7 +57,6 @@
 	var style_cookie_settings = '{A_COOKIE_SETTINGS}';
 	var onload_functions = new Array();
 	var onunload_functions = new Array();
-	// www.phpBB-SEO.com SEO TOOLKIT BEGIN
 	var seo_delim_start = '{SEO_START_DELIM}';
 	var seo_static_pagination = '{SEO_SATIC_PAGE}';
 	var seo_ext_pagination = '{SEO_EXT_PAGE}';
@@ -104,6 +104,33 @@
 <script type="text/javascript" src="{T_SUPER_TEMPLATE_PATH}/styleswitcher.js"></script>
 <script type="text/javascript" src="{T_SUPER_TEMPLATE_PATH}/forum_fn.js"></script>
 
+<script type="text/javascript" src="{ROOT_PATH}highslide/highslide-full.js"></script>
+<link href="{ROOT_PATH}highslide/highslide.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+// <![CDATA[
+hs.graphicsDir = '{ROOT_PATH}highslide/graphics/';
+hs.align = 'center';
+hs.transitions = ['expand', 'crossfade'];
+hs.outlineType = 'rounded-white';
+hs.fadeInOut = true;
+//hs.dimmingOpacity = 0.75;
+
+// Add the controlbar
+hs.addSlideshow({
+	//slideshowGroup: 'group1',
+	interval: 5000,
+	repeat: false,
+	useControls: true,
+	fixedControls: 'fit',
+	overlayOptions: {
+		opacity: 0.75,
+		position: 'bottom center',
+		hideOnMouseOut: true
+	}
+});
+// ]]>
+</script>
+
 <link href="{T_THEME_PATH}/print.css" rel="stylesheet" type="text/css" media="print" title="printonly" />
 <link href="{T_STYLESHEET_LINK}" rel="stylesheet" type="text/css" media="screen, projection" />
 
@@ -128,9 +155,147 @@
   })();
 
 </script>
+<!--Requirement jQuery-->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+
+<!-- IF SCRIPT_NAME != "podvozilka" and S_MCHAT_ENABLE and (S_MCHAT_ON_INDEX or U_MCHAT) or S_MCHAT_ON_INDEX_WIDGET -->
+<!--script type="text/javascript" src="{ROOT_PATH}mchat/jquery-1.9.0.min.js"></script-->
+<script type="text/javascript" src="{ROOT_PATH}mchat/jquery_cookie_mini.js"></script>
+<link href="{ROOT_PATH}mchat/liMarquee.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{ROOT_PATH}mchat/jquery.liMarquee.js"></script>
+<!-- ENDIF -->
+
+<!-- IF SCRIPT_NAME == "podvozilka" -->
+   <!--Load Script and Stylesheet -->
+   <script type="text/javascript" src="./datetimepicker/jquery.simple-dtpicker.js"></script>
+   <link type="text/css" href="./datetimepicker/jquery.simple-dtpicker.css" rel="stylesheet" />
+   <!---->
+<!-- ENDIF -->
+
+<!-- IF S_MCHAT_ON_INDEX_WIDGET -->
+<script>
+$(function(){
+	$(window).load(function(){
+		$('#vertical').liMarquee({
+			direction: 'up',	//Указывает направление движения содержимого контейнера (left | up | down)
+			loop:-1,			//Задает, сколько раз будет прокручиваться содержимое. "-1" для бесконечного воспроизведения движения
+			scrolldelay: 0,		//Величина задержки в миллисекундах между движениями
+			scrollamount:30,	//Скорость движения контента (px/sec)
+			circular: true,		//Если "true" - строка непрерывная 
+			drag: true			//Если "true" - включено перетаскивание строки
+		});
+	})
+});
+</script>
+<!-- ENDIF -->
+
 </head>
 
 <body id="phpbb" class="section-{SCRIPT_NAME} {S_CONTENT_DIRECTION}">
+   
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<!-- IF false -->
+<script type="text/javascript">
+/******************************************
+ *{CURRENT_TIME}
+* Snow Effect Script- By Altan d.o.o. (http://www.altan.hr/snow/index.html)
+* Visit Dynamic Drive DHTML code library (http://www.dynamicdrive.com/) for full source code
+* Last updated Nov 9th, 05' by DD. This notice must stay intact for use
+******************************************/
+  
+  //Configure below to change URL path to the snow image
+  var snowsrc="./images/keys.gif"
+  // Configure below to change number of snow to render
+  var no = 10;
+  // Configure whether snow should disappear after x seconds (0=never):
+  var hidesnowtime = 0;
+  // Configure how much snow should drop down before fading ("windowheight" or "pageheight")
+  var snowdistance = "pageheight";
+
+///////////Stop Config//////////////////////////////////
+
+  var ie4up = (document.all) ? 1 : 0;
+  var ns6up = (document.getElementById&&!document.all) ? 1 : 0;
+
+	function iecompattest(){
+	return (document.compatMode && document.compatMode!="BackCompat")? document.documentElement : document.body
+	}
+
+  var dx, xp, yp;    // coordinate and position variables
+  var am, stx, sty;  // amplitude and step variables
+  var i, doc_width = 800, doc_height = 600; 
+  
+  if (ns6up) {
+    doc_width = self.innerWidth;
+    doc_height = self.innerHeight;
+  } else if (ie4up) {
+    doc_width = iecompattest().clientWidth;
+    doc_height = iecompattest().clientHeight;
+  }
+
+  dx = new Array();
+  xp = new Array();
+  yp = new Array();
+  am = new Array();
+  stx = new Array();
+  sty = new Array();
+  snowsrc=(snowsrc.indexOf("dynamicdrive.com")!=-1)? "snow.gif" : snowsrc
+  for (i = 0; i < no; ++ i) {  
+    dx[i] = 0;                        // set coordinate variables
+    xp[i] = Math.random()*(doc_width-50);  // set position variables
+    yp[i] = Math.random()*doc_height;
+    am[i] = Math.random()*20;         // set amplitude variables
+    stx[i] = 0.02 + Math.random()/10; // set step variables
+    sty[i] = 0.7 + Math.random();     // set step variables
+		if (ie4up||ns6up) {
+      if (i == 0) {
+        document.write("<div id=\"dot"+ i +"\" style=\"POSITION: absolute; Z-INDEX: "+ i +"; VISIBILITY: visible; TOP: 15px; LEFT: 15px;\"><a href=\"http://dynamicdrive.com\"><img src='"+snowsrc+"' border=\"0\"><\/a><\/div>");
+      } else {
+        document.write("<div id=\"dot"+ i +"\" style=\"POSITION: absolute; Z-INDEX: "+ i +"; VISIBILITY: visible; TOP: 15px; LEFT: 15px;\"><img src='"+snowsrc+"' border=\"0\"><\/div>");
+      }
+    }
+  }
+
+  function snowIE_NS6() {  // IE and NS6 main animation function
+    doc_width = ns6up?window.innerWidth-10 : iecompattest().clientWidth-10;
+		doc_height=(window.innerHeight && snowdistance=="windowheight")? window.innerHeight : (ie4up && snowdistance=="windowheight")?  iecompattest().clientHeight : (ie4up && !window.opera && snowdistance=="pageheight")? iecompattest().scrollHeight : iecompattest().offsetHeight;
+    for (i = 0; i < no; ++ i) {  // iterate for every dot
+      yp[i] += sty[i];
+      if (yp[i] > doc_height-50) {
+        xp[i] = Math.random()*(doc_width-am[i]-30);
+        yp[i] = 0;
+        stx[i] = 0.02 + Math.random()/10;
+        sty[i] = 0.7 + Math.random();
+      }
+      dx[i] += stx[i];
+      document.getElementById("dot"+i).style.top=yp[i]+"px";
+      document.getElementById("dot"+i).style.left=xp[i] + am[i]*Math.sin(dx[i])+"px";  
+    }
+    snowtimer=setTimeout("snowIE_NS6()", 10);
+  }
+
+	function hidesnow(){
+		if (window.snowtimer) clearTimeout(snowtimer)
+		for (i=0; i<no; i++) document.getElementById("dot"+i).style.visibility="hidden"
+	}
+		
+
+if (ie4up||ns6up){
+    snowIE_NS6();
+		if (hidesnowtime>0)
+		setTimeout("hidesnow()", hidesnowtime*1000)
+		}
+
+</script>
+<!-- ENDIF -->
 
 <div id="wrap">
 	<a id="top" name="top" accesskey="t"></a>
@@ -159,6 +324,7 @@
 
 			<div id="top-social">
 				<div id="top-social-icons">
+				        <div class="fb-like" data-href="http://pkvartal.kiev.ua/forum/" data-width="200" data-layout="button_count" data-show-faces="true" data-send="false"></div>
 					<a href="http://pkvartal.kiev.ua/forum/feed.php"><img alt="RSS" title="RSS" src="http://pkvartal.kiev.ua/forum/styles/prosilver/imageset/rss-20.png"></a>
 					<a href="http://www.facebook.com/pkvartal"><img alt="Facebook" title="Facebook" src="http://pkvartal.kiev.ua/forum/styles/prosilver/imageset/facebook-20.png"></a>
 					<a href="https://twitter.com/PKvartal"><img alt="Twitter" title="Twitter" src="http://pkvartal.kiev.ua/forum/styles/prosilver/imageset/twitter-20.png"></a>
@@ -170,7 +336,6 @@
 
 		<div class="navbar">
 			<div class="inner"><span class="corners-top"><span></span></span>
-
 			<ul class="linklist navlinks">
 				<li class="icon-home"><a href="{U_INDEX}" accesskey="h">{L_INDEX}</a> <!-- BEGIN navlinks --> <strong>&#8249;</strong> <a href="{navlinks.U_VIEW_FORUM}">{navlinks.FORUM_NAME}</a><!-- END navlinks --></li>
 
@@ -201,11 +366,15 @@
 				</li>
 			</ul>
 			<!-- ENDIF -->
+			
 
 			<ul class="linklist rightside">
 				<li class="icon-faq"><a href="{U_FAQ}" title="{L_FAQ_EXPLAIN}">{L_FAQ}</a></li>
+                <!-- IF S_MCHAT_ENABLE and U_MCHAT --><li class="icon-bump"><b><a href="{U_MCHAT}#mChat" title="{L_MCHAT_TITLE}">{L_MCHAT_TITLE}</a></b></li><!-- ENDIF -->
 				<!-- IF not S_IS_BOT -->
 					<!-- IF S_DISPLAY_MEMBERLIST --><li class="icon-members"><a href="{U_MEMBERLIST}" title="{L_MEMBERLIST_EXPLAIN}">{L_MEMBERLIST}</a></li><!-- ENDIF -->
+                    <!-- IF S_DISPLAY_TOPLIST --><li class="icon-thanks_toplist"><a href="{U_REPUT_TOPLIST}" title="{L_REPUT_TOPLIST}">{L_REPUT_TOPLIST}</a></li><!-- ENDIF -->
+                <!-- IF S_DISPLAY_THANKSLIST --><li class="icon-thanks"><a href="{U_THANKSLIST}" title="{L_THANKS_USER}">{L_GRATITUDES}</a></li><!-- ENDIF -->
 					<!-- IF not S_USER_LOGGED_IN and S_REGISTER_ENABLED and not (S_SHOW_COPPA or S_REGISTRATION) --><li class="icon-register"><a href="{U_REGISTER}">{L_REGISTER}</a></li><!-- ENDIF -->
 					<li class="icon-logout"><a href="{U_LOGIN_LOGOUT}" title="{L_LOGIN_LOGOUT}" accesskey="x">{L_LOGIN_LOGOUT}</a></li>
 				<!-- ENDIF -->

@@ -21,6 +21,8 @@ $table_prefix = 'phpbb_';
 $acm_type = 'file';
 $load_extensions = '';
 
+$queue_interval = 20;
+
 @define('PHPBB_INSTALLED', true);
 // @define('DEBUG', true);
 // @define('DEBUG_EXTRA', true);

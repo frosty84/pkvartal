@@ -555,4 +555,11 @@ $lang = array_merge($lang, array(
 	'NO_NONMEMBER'	=> 'No non-member groups',
 ));
 
+// BEGIN mChat Mod
+$lang = array_merge($lang, array(
+    'UCP_CAT_MCHAT'        => 'mChat',
+    'UCP_MCHAT_CONFIG'    => 'Preferences',
+));
+// END mChat Mod
+
 ?>

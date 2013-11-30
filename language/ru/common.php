@@ -40,7 +40,7 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'TRANSLATION_INFO'	=> '<a href=\'http://www.phpbbguru.net/\'>Русская поддержка phpBB</a>',
+	'TRANSLATION_INFO'	=> '',
 	'DIRECTION'			=> 'ltr',
 	'DATE_FORMAT'		=> '|d.m.Y|',	// 01 Jan 2007 (with Relative days enabled)
 	'USER_LANG'			=> 'ru',
@@ -499,6 +499,8 @@ $lang = array_merge($lang, array(
 	'RETURN_TO'					=> 'Вернуться в',
 	'FEED'						=> 'Канал',
 	'FEED_NEWS'					=> 'Новости',
+	'SHOW' => 'Развернуть',
+	'HIDE' => 'Свернуть',
  	'FEED_TOPICS_ACTIVE'		=> 'Активные темы',
  	'FEED_TOPICS_NEW'			=> 'Новые темы',
 	'RULES_ATTACH_CAN'			=> 'Вы <strong>можете</strong> добавлять вложения',
@@ -899,5 +901,11 @@ $lang = array_merge($lang, array(
 	'default_dateformat'	=>'|d M Y|, H:i', // Сегодня, 13:37 / 01 Янв 2007, 13:37
 
 ));
+
+// BEGIN mChat Mod
+$lang = array_merge($lang, array(
+    'MCHAT_TITLE'                => 'чЯтик:)',
+));
+// END mChat Mod
 
 ?>

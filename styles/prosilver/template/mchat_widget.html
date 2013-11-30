@@ -1,0 +1,25 @@
+<!-- IF not MCHAT_READ_MODE -->
+<div class="forabg">
+	<div class="inner"><span class="corners-top"><span><a name="mChat"></a></span></span>
+		<ul class="topiclist">
+			<li class="header">
+				<dl class="icon">
+					<dt>
+						<!-- IF S_USER_LOGGED_IN --><a title="<!-- IF MCHAT_IS_HIDDEN -->{L_SHOW}<!-- ELSE -->{L_HIDE}<!-- ENDIF -->" href="{MCHAT_COLLAPSEFORUM}"><!-- IF MCHAT_IS_HIDDEN -->[+]<!-- ELSE -->[-]<!-- ENDIF --></a>&nbsp;<!-- ENDIF -->
+						<a href="{U_MCHAT}#mChat" target="_blank" title="{L_MCHAT_TITLE}">{L_MCHAT_TITLE}</a>
+					</dt>
+				</dl>
+			</li>
+		</ul>
+		<div id="vertical" class="postbody mChatBodyFix" style="height:100px; overflow: hidden; <!-- IF MCHAT_IS_HIDDEN -->display:  none;<!-- ENDIF -->" >
+<!-- ENDIF -->
+<!-- IF S_MCHAT_ON_INDEX_WIDGET -->
+	<!-- INCLUDE mchat_avatars.html -->
+<!-- ELSE -->
+	<div class="mchat_alert">{L_MCHAT_ENABLE}</div>
+<!-- ENDIF -->
+<!-- IF not MCHAT_READ_MODE -->
+		</div>
+	<span class="corners-bottom"><span></span></span></div>
+</div>
+<!-- ENDIF -->

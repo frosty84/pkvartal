@@ -495,6 +495,8 @@ $lang = array_merge($lang, array(
 	'RETURN_TOPIC'				=> '%sReturn to the topic last visited%s',
 	'RETURN_TO'					=> 'Return to',
 	'FEED'						=> 'Feed',
+	'SHOW' => 'Show',
+	'HIDE' => 'Hide',
 	'FEED_NEWS'					=> 'News',
 	'FEED_TOPICS_ACTIVE'		=> 'Active Topics',
 	'FEED_TOPICS_NEW'			=> 'New Topics',
@@ -878,5 +880,11 @@ $lang = array_merge($lang, array(
 	'default_dateformat'	=> 'D M d, Y g:i a', // Mon Jan 01, 2007 1:37 pm
 
 ));
+
+// BEGIN mChat Mod
+$lang = array_merge($lang, array(
+    'MCHAT_TITLE'                => 'Mini-Chat',
+));
+// END mChat Mod
 
 ?>

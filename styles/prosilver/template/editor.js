@@ -46,8 +46,14 @@ function initInsertions()
 
 	if (is_ie && typeof(baseHeight) != 'number')
 	{
-		textarea.focus();
-		baseHeight = doc.selection.createRange().duplicate().boundingHeight;
+                /* === mChat focus fix Start === */
+                var mChatFocus = window.mChatFocusFix || false;
+                if(!mChatFocus)
+                {
+                    textarea.focus();
+                }
+                baseHeight = doc.selection.createRange().duplicate().boundingHeight;
+                /* ==== mChat focus fix End ==== */
 
 		if (!document.forms[form_name])
 		{
@@ -440,16 +446,22 @@ function getCaretPosition(txtarea)
 		
 		// calculate selection start point by moving beginning of range_all to beginning of range
 		var sel_start;
-		for (sel_start = 0; range_all.compareEndPoints('StartToStart', range) < 0; sel_start++)
-		{		
-			range_all.moveStart('character', 1);
-		}
-	
-		txtarea.sel_start = sel_start;
-	
-		// we ignore the end value for IE, this is already dirty enough and we don't need it
-		caretPos.start = txtarea.sel_start;
-		caretPos.end = txtarea.sel_start;			
+        try
+        {
+		    for (sel_start = 0; range_all.compareEndPoints('StartToStart', range) < 0; sel_start++)
+		    {		
+			    range_all.moveStart('character', 1);
+		    }
+	    
+		    txtarea.sel_start = sel_start;
+	    
+		    // we ignore the end value for IE, this is already dirty enough and we don't need it
+		    caretPos.start = txtarea.sel_start;
+		    caretPos.end = txtarea.sel_start;			
+        }
+        catch(e)
+        {
+        }
 	}
 
 	return caretPos;

@@ -288,6 +288,46 @@ function display_forums($root_data = '', $display_moderators = true, $return_mod
 		}
 
 	}
+	
+	//MOD: Collapse categories
+	if ($mark_read == 'collapse' && $user->data['user_id'] != ANONYMOUS)
+	{
+		$forum_id = request_var('f', 0);
+		if (!$forum_id)
+		{
+			trigger_error('NO_FORUM');
+		}
+		
+		if($forum_id != 9999){
+			$sql_from = FORUMS_TABLE . ' f';
+			$sql = "SELECT f.forum_id FROM $sql_from WHERE f.forum_id = $forum_id";
+			$result = $db->sql_query($sql);
+			$forum_data = $db->sql_fetchrow($result);
+			$db->sql_freeresult($result);
+			if (!$forum_data)
+			{
+				trigger_error('NO_FORUM');
+			}
+		}
+		$forums_collapse = explode("-", $user->data['user_category_collapse']);
+		$forums_collapse_key = array_search($forum_id, $forums_collapse);
+		if($forums_collapse_key === false)
+		{
+			$forums_collapse[] = $forum_id;
+		}
+		else
+		{
+			unset($forums_collapse[$forums_collapse_key]);
+		}
+		$collapsed = implode("-", $forums_collapse);
+		$sql_from = USERS_TABLE . ' u';
+		$sql = "UPDATE $sql_from SET u.user_category_collapse = '$collapsed' WHERE u.user_id = ".$user->data['user_id'];
+		$result = $db->sql_query($sql);
+		$forum_data = $db->sql_fetchrow($result);
+		$db->sql_freeresult($result);
+		redirect(append_sid("{$phpbb_root_path}index.$phpEx"));
+	}
+	//MOD: Collapse categories
 
 	// Grab moderators ... if necessary
 	if ($display_moderators)
@@ -298,7 +338,22 @@ function display_forums($root_data = '', $display_moderators = true, $return_mod
 		}
 		get_moderators($forum_moderators, $forum_ids_moderator);
 	}
-
+    
+    if (!function_exists('get_max_forum_thanks'))
+    {
+        include($phpbb_root_path . 'includes/functions_thanks_forum.' . $phpEx);
+    }
+    get_max_forum_thanks();
+    $forum_thanks_rating = array();
+    foreach ($forum_rows as $row)
+    {
+        $forum_thanks_rating[] = $row['forum_id'];
+    }
+    global $cache;
+    $cache->put('_forum_thanks_rating', $forum_thanks_rating);
+    get_thanks_forum_number();
+    $cache->destroy('_forum_thanks_rating');
+    
 	// Used to tell whatever we have to create a dummy category or not.
 	$last_catless = true;
 	foreach ($forum_rows as $row)
@@ -308,6 +363,10 @@ function display_forums($root_data = '', $display_moderators = true, $return_mod
 		{
 			$template->assign_block_vars('forumrow', array(
 				'S_IS_CAT'				=> true,
+				'S_IS_CAT_HIDDEN'		=> in_array($row['forum_id'], explode("-", $user->data['user_category_collapse'])),	//MOD: Collapse categories
+				'U_COLLAPSEFORUM'		=> append_sid("{$phpbb_root_path}index.$phpEx", 'mark=collapse&amp;f=' . $row['forum_id']),
+                'S_THANKS_FORUM_REPUT_VIEW_COLUMN' => isset($config['thanks_forum_reput_view']) ? $config['thanks_forum_reput_view_column'] : false,
+                'THANKS_REPUT_GRAPHIC_WIDTH'=> isset($config['thanks_reput_level']) ? (isset($config['thanks_reput_height']) ? sprintf('%dpx', $config['thanks_reput_level']*$config['thanks_reput_height']) : false) : false,                
 				'FORUM_ID'				=> $row['forum_id'],
 				'FORUM_NAME'			=> $row['forum_name'],
 				'FORUM_DESC'			=> generate_text_for_display($row['forum_desc'], $row['forum_desc_uid'], $row['forum_desc_bitfield'], $row['forum_desc_options']),
@@ -454,7 +513,10 @@ function display_forums($root_data = '', $display_moderators = true, $return_mod
 
 		$template->assign_block_vars('forumrow', array(
 			'S_IS_CAT'			=> false,
+			'S_IS_PARENT_CAT_HIDDEN'		=> in_array($row['parent_id'], explode("-", $user->data['user_category_collapse'])),	//MOD: Collapse categories
 			'S_NO_CAT'			=> $catless && !$last_catless,
+            'S_THANKS_FORUM_REPUT_VIEW_COLUMN' => isset($config['thanks_forum_reput_view']) ? $config['thanks_forum_reput_view_column'] : false,
+            'THANKS_REPUT_GRAPHIC_WIDTH'=> isset($config['thanks_reput_level'])? (isset($config['thanks_reput_height']) ? sprintf('%dpx', $config['thanks_reput_level']*$config['thanks_reput_height']) : false) : false,            
 			'S_IS_LINK'			=> ($row['forum_type'] == FORUM_LINK) ? true : false,
 			'S_UNREAD_FORUM'	=> $forum_unread,
 			'S_LOCKED_FORUM'	=> ($row['forum_status'] == ITEM_LOCKED) ? true : false,
@@ -489,6 +551,11 @@ function display_forums($root_data = '', $display_moderators = true, $return_mod
 			'U_LAST_POST'		=> $last_post_url)
 		);
 
+        if (isset($config['thanks_forum_reput_view']))
+        {
+            get_thanks_forum_reput($row['forum_id']);
+        }
+        
 		// Assign subforums loop for style authors
 		foreach ($subforums_list as $subforum)
 		{

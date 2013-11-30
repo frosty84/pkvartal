@@ -121,6 +121,9 @@ $lang = array_merge($lang, array(
 	'ACP_MANAGE_REASONS'		=> 'Manage report/denial reasons',
 	'ACP_MANAGE_USERS'			=> 'Manage users',
 	'ACP_MASS_EMAIL'			=> 'Mass e-mail',
+    'ACP_MASS_EMAIL_HTML'        => 'Mass e-mail HTML',
+    'ACP_MASS_EMAIL_HTML_DO'    => 'Write e-mail HTML',
+    'ACP_MASS_EMAIL_HTML_VIEW'    => 'Manage e-mail HTML',
 	'ACP_MESSAGES'				=> 'Messages',
 	'ACP_MESSAGE_SETTINGS'		=> 'Private message settings',
 	'ACP_MODULE_MANAGEMENT'		=> 'Module management',
@@ -738,5 +741,13 @@ $lang = array_merge($lang, array(
 	'LOG_WORD_DELETE'		=> '<strong>Deleted word censor</strong><br />» %s',
 	'LOG_WORD_EDIT'			=> '<strong>Edited word censor</strong><br />» %s',
 ));
+
+// BEGIN mChat Mod
+$lang = array_merge($lang, array(
+    // Prune Feature
+    'LOG_MCHAT_TABLE_PRUNED'    => 'mChat Table was pruned',
+    'ACP_USER_MCHAT'            => 'mChat Settings',
+));
+// END mChat Mod
 
 ?>

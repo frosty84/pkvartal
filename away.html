@@ -1,0 +1,23 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Переход по внешней ссылке</title>
+<script type="text/javascript">
+var domain = self.location.host;
+var url = self.location.href.match(/\?.*$/g)[0];
+url = url.substring(1, url.length);
+function go() {location.replace(url);}
+</script>
+</head>
+<body style="padding: 20px 180px; font-size: 12px; font-family: Tahoma; line-height: 200%;">
+<h2>Переход по внешней ссылке</h2>
+Вы покидаете неофициальный <b>форум ЖК Пражский Квартал</b> по внешней ссылке <script type="text/javascript">document.write('<b>'+ url +'<\/b>')</script>.
+Администрация <script type="text/javascript">document.write('<b>'+ domain +'<\/b>')</script> не несет ответственности за содержимое сайта <script type="text/javascript">document.write('<b>'+ url +'<\/b>')</script> и настоятельно рекомендует
+<b>не указывать</b> никаких своих данных, имеющих отношение к <script type="text/javascript">document.write('<b>'+ domain +'<\/b>')</script> (особенно <b>e-mail</b>, <b>пароль</b> и <b>cookies</b>), на сторонних сайтах.
+<br><br>
+Если Вы еще не передумали, нажмите на <script type="text/javascript">document.write('<a href="javascript://" onClick="go()">'+ url +'<\/a>')</script>.
+<br>
+Если Вы передумали, и решили остаться на нашем уютненьком форуме, нажмите <a href="javascript:window.close()">отмена</a>.
+</body>
+</html>

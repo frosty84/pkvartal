@@ -3501,19 +3501,19 @@ function get_preg_expression($mode)
 			$inline = ($mode == 'url') ? ')' : '';
 			$scheme = ($mode == 'url') ? '[a-z\d+\-.]' : '[a-z\d+]'; // avoid automatic parsing of "word" in "last word.http://..."
 			// generated with regex generation file in the develop folder
-			return "[a-z]$scheme*:/{2}(?:(?:[a-z0-9\-._~!$&'($inline*+,;=:@|]+|%[\dA-F]{2})+|[0-9.]+|\[[a-z0-9.]+:[a-z0-9.]+:[a-z0-9.:]+\])(?::\d*)?(?:/(?:[a-z0-9\-._~!$&'($inline*+,;=:@|]+|%[\dA-F]{2})*)*(?:\?(?:[a-z0-9\-._~!$&'($inline*+,;=:@/?|]+|%[\dA-F]{2})*)?(?:\#(?:[a-z0-9\-._~!$&'($inline*+,;=:@/?|]+|%[\dA-F]{2})*)?";
+			return "[a-z]$scheme*:/{2}(?:(?:[\pLa-z0-9\-._~!$&'($inline*+,;=:@|]+|%[\dA-F]{2})+|[0-9.]+|\[[\pLa-z0-9.]+:[\pLa-z0-9.]+:[\pLa-z0-9.:]+\])(?::\d*)?(?:/(?:[\pLa-z0-9\-._~!$&'($inline*+,;=:@|]+|%[\dA-F]{2})*)*(?:\?(?:[\pLa-z0-9\-._~!$&'($inline*+,;=:@/?|]+|%[\dA-F]{2})*)?(?:\#(?:[\pLa-z0-9\-._~!$&'($inline*+,;=:@/?|]+|%[\dA-F]{2})*)?";
 		break;
 
 		case 'www_url':
 		case 'www_url_inline':
 			$inline = ($mode == 'www_url') ? ')' : '';
-			return "www\.(?:[a-z0-9\-._~!$&'($inline*+,;=:@|]+|%[\dA-F]{2})+(?::\d*)?(?:/(?:[a-z0-9\-._~!$&'($inline*+,;=:@|]+|%[\dA-F]{2})*)*(?:\?(?:[a-z0-9\-._~!$&'($inline*+,;=:@/?|]+|%[\dA-F]{2})*)?(?:\#(?:[a-z0-9\-._~!$&'($inline*+,;=:@/?|]+|%[\dA-F]{2})*)?";
+			return "www\.(?:[\pLa-z0-9\-._~!$&'($inline*+,;=:@|]+|%[\dA-F]{2})+(?::\d*)?(?:/(?:[\pLa-z0-9\-._~!$&'($inline*+,;=:@|]+|%[\dA-F]{2})*)*(?:\?(?:[\pLa-z0-9\-._~!$&'($inline*+,;=:@/?|]+|%[\dA-F]{2})*)?(?:\#(?:[\pLa-z0-9\-._~!$&'($inline*+,;=:@/?|]+|%[\dA-F]{2})*)?";
 		break;
 
 		case 'relative_url':
 		case 'relative_url_inline':
 			$inline = ($mode == 'relative_url') ? ')' : '';
-			return "(?:[a-z0-9\-._~!$&'($inline*+,;=:@|]+|%[\dA-F]{2})*(?:/(?:[a-z0-9\-._~!$&'($inline*+,;=:@|]+|%[\dA-F]{2})*)*(?:\?(?:[a-z0-9\-._~!$&'($inline*+,;=:@/?|]+|%[\dA-F]{2})*)?(?:\#(?:[a-z0-9\-._~!$&'($inline*+,;=:@/?|]+|%[\dA-F]{2})*)?";
+			return "(?:[\pLa-z0-9\-._~!$&'($inline*+,;=:@|]+|%[\dA-F]{2})*(?:/(?:[\pLa-z0-9\-._~!$&'($inline*+,;=:@|]+|%[\dA-F]{2})*)*(?:\?(?:[\pLa-z0-9\-._~!$&'($inline*+,;=:@/?|]+|%[\dA-F]{2})*)?(?:\#(?:[\pLa-z0-9\-._~!$&'($inline*+,;=:@/?|]+|%[\dA-F]{2})*)?";
 		break;
 	}
 
@@ -4527,6 +4527,7 @@ function page_header($page_title = '', $display_online_list = true, $item_id = 0
 
 	// Send a proper content-language to the output
 	$user_lang = $user->lang['USER_LANG'];
+    $user->add_lang('mods/thanks_mod');
 	if (strpos($user_lang, '-x-') !== false)
 	{
 		$user_lang = substr($user_lang, 0, strpos($user_lang, '-x-'));
@@ -4537,6 +4538,25 @@ function page_header($page_title = '', $display_online_list = true, $item_id = 0
 	{
 		$s_search_hidden_fields['sid'] = $_SID;
 	}
+    
+    // BEGIN mChat Mod
+    $mchat_custom_page = false;
+    if(!empty($config['mchat_version']) && !empty($config['mchat_enable']))
+    {
+        global $cache;
+        if (!function_exists('mchat_cache'))
+        {
+            include($phpbb_root_path . 'includes/functions_mchat.' . $phpEx);
+        }
+        if (($config_mchat = $cache->get('_mchat_config')) === false)
+        {
+            mchat_cache();
+        }
+        $config_mchat = $cache->get('_mchat_config');    
+            
+        $mchat_custom_page = $config_mchat['custom_page'];
+    }
+    //END mChat Mod
 
 	// The following assigns all _common_ variables that may be used at any point in a template.
 	$template->assign_vars(array(
@@ -4574,6 +4594,8 @@ function page_header($page_title = '', $display_online_list = true, $item_id = 0
 		'UA_POPUP_PM'			=> addslashes(append_sid((!empty($phpbb_seo) ? $phpbb_seo->seo_path['phpbb_url'] : $phpbb_root_path) . "ucp.$phpEx", 'i=pm&amp;mode=popup')),
 		// www.phpBB-SEO.com SEO TOOLKIT END
 		'U_MEMBERLIST'			=> append_sid("{$phpbb_root_path}memberlist.$phpEx"),
+        'U_THANKSLIST'            => append_sid("{$phpbb_root_path}thankslist.$phpEx"),
+        'U_REPUT_TOPLIST'        => append_sid("{$phpbb_root_path}toplist.$phpEx"),        
 		'U_VIEWONLINE'			=> ($auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel')) ? append_sid("{$phpbb_root_path}viewonline.$phpEx") : '',
 		'U_LOGIN_LOGOUT'		=> $u_login_logout,
 		'U_INDEX'				=> append_sid("{$phpbb_root_path}index.$phpEx"),
@@ -4582,6 +4604,14 @@ function page_header($page_title = '', $display_online_list = true, $item_id = 0
 		'U_PROFILE'				=> append_sid("{$phpbb_root_path}ucp.$phpEx"),
 		'U_MODCP'				=> append_sid("{$phpbb_root_path}mcp.$phpEx", false, true, $user->session_id),
 		'U_FAQ'					=> append_sid("{$phpbb_root_path}faq.$phpEx"),
+        // BEGIN mChat Mod
+        'U_MCHAT'                => $auth->acl_get('u_mchat_view') && $mchat_custom_page ? append_sid("{$phpbb_root_path}mchat.$phpEx") : '',
+        'S_MCHAT_ON_INDEX'        => (!empty($config['mchat_on_index']) && !empty($user->data['user_mchat_index'])) ? true : false,
+	'S_MCHAT_ON_INDEX_WIDGET' => (!empty($config['mchat_on_index_widget'])) ? true : false,
+        'S_MCHAT_ENABLE'        => (!empty($config['mchat_enable']) && $auth->acl_get('u_mchat_view')) ? true : false,
+	'MCHAT_COLLAPSEFORUM'	=> append_sid("{$phpbb_root_path}index.$phpEx", 'mark=collapse&amp;f=9999'),
+	'MCHAT_IS_HIDDEN'	=> in_array(9999, explode("-", $user->data['user_category_collapse'])),	//MOD: Collapse categories
+        // END mChat Mod
 		'U_SEARCH_SELF'			=> append_sid("{$phpbb_root_path}search.$phpEx", 'search_id=egosearch'),
 		'U_SEARCH_NEW'			=> append_sid("{$phpbb_root_path}search.$phpEx", 'search_id=newposts'),
 		'U_SEARCH_UNANSWERED'	=> append_sid("{$phpbb_root_path}search.$phpEx", 'search_id=unanswered'),
@@ -4612,6 +4642,8 @@ function page_header($page_title = '', $display_online_list = true, $item_id = 0
 		'S_DISPLAY_SEARCH'		=> (!$config['load_search']) ? 0 : (isset($auth) ? ($auth->acl_get('u_search') && $auth->acl_getf_global('f_search')) : 1),
 		'S_DISPLAY_PM'			=> ($config['allow_privmsg'] && !empty($user->data['is_registered']) && ($auth->acl_get('u_readpm') || $auth->acl_get('u_sendpm'))) ? true : false,
 		'S_DISPLAY_MEMBERLIST'	=> (isset($auth)) ? $auth->acl_get('u_viewprofile') : 0,
+        'S_DISPLAY_THANKSLIST'    => (isset($auth)) ? $auth->acl_get('u_viewthanks') : 0,
+        'S_DISPLAY_TOPLIST'        => (isset($auth)) ? $auth->acl_get('u_viewtoplist') : 0,        
 		'S_NEW_PM'				=> ($s_privmsg_new) ? 1 : 0,
 		'S_REGISTER_ENABLED'	=> ($config['require_activation'] != USER_ACTIVATION_DISABLE) ? true : false,
 		'S_FORUM_ID'			=> $forum_id,
@@ -4736,8 +4768,8 @@ function page_footer($run_cron = true)
 		{
 			$cron_time = explode(' ', $config['cron_lock']);
 
-			// If 1 hour lock is present we do not call cron.php
-			if ($cron_time[0] + 3600 >= $time_now)
+			// If 1/2 hour lock is present we do not call cron.php
+			if ($cron_time[0] + 1800 >= $time_now)
 			{
 				$call_cron = false;
 			}

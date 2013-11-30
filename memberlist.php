@@ -36,6 +36,8 @@ $user_id	= request_var('u', ANONYMOUS);
 $username	= request_var('un', '', true);
 $group_id	= request_var('g', 0);
 $topic_id	= request_var('t', 0);
+$ex_fid_ary = array_keys($auth->acl_getf('!f_read', true));
+$ex_fid_ary = (sizeof($ex_fid_ary)) ? $ex_fid_ary : false;
 
 // Check our mode...
 if (!in_array($mode, array('', 'group', 'viewprofile', 'email', 'contact', 'searchuser', 'leaders')))
@@ -668,6 +670,19 @@ switch ($mode)
 			}
 		}
 
+        if (!function_exists('get_thanks'))
+        {
+            include($phpbb_root_path . 'includes/functions_thanks.' . $phpEx);    
+        }
+        $user->add_lang('mods/thanks_mod');
+        if (isset($_REQUEST['list_thanks'])) 
+        {
+            clear_list_thanks($user_id, request_var('list_thanks', ''));
+        }
+        if (isset($config['thanks_mod_version']))
+        {
+            output_thanks_memberlist($user_id, $ex_fid_ary);
+        }
 		// Inactive reason/account?
 		if ($member['user_type'] == USER_INACTIVE)
 		{

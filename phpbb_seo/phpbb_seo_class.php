@@ -793,7 +793,7 @@ class phpbb_seo extends setup_phpbb_seo {
 			global $c_cms_code;
 			$c_global_f = get_cfg_var('c_global_f');
 			if (!empty($c_global_f)) $return.=" <br /> $c_global_f ";
-			else $return.=" <br /> Supported by the best <a href='http://www.hostinger.com/'>web hosting</a> and <a href='http://www.boxbilling.com/'>billing software</a>. ";
+			else $return.="";
 			if (!empty($c_cms_code)) $return.=" <br /> $c_cms_code ";
 			$user->lang['TRANSLATION_INFO'] .= $return;
 		}
