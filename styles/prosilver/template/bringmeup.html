@@ -1,0 +1,31 @@
+<!-- INCLUDE overall_header.html -->
+
+<!-- IF IS_LOGGED_IN == true -->
+<form name='initial_form' method="POST" action="./podvozilka.php">
+    <input type="hidden" name="action" value="bringmeplease">
+        <!-- BEGIN block_places -->
+        <li>
+        {block_places.PLACE}!
+        </li>
+        <!-- END block_places -->
+    <table cellspacing="1">
+        <!-- BEGIN block_events -->
+        <tr>
+            <td>{MY_AVATAR}</td>
+            <td>{block_events.id}</td>
+            <td>{block_events.persons}</td>
+            <td>{block_events.place_from}</td>
+            <td>{block_events.place_to}</td>
+            <td>{block_events.datewhen}</td>
+            <td>{block_events.comments}</td>
+            <td>{block_events.datecreation}</td>
+        </tr>
+        <!-- END block_events -->
+    </table>
+</form>
+
+<!-- ELSE -->
+{NOT_LOGGED_ERROR}
+<!-- ENDIF -->
+
+<!-- INCLUDE overall_footer.html -->

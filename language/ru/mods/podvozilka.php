@@ -41,7 +41,7 @@ $lang = array_merge($lang, array(
     'EXAMPLE'           => 'Example',
     'DEMO'              => 'Demo',
     'TIME_NOW'          => 'The time right now is %s',
-    'MY_TITLE'          => 'My New Page Title',
+    'PODVOZILKA_TITLE'  => 'Подвозилка',
     'NOT_LOGGED_ERROR'  => 'Войдите или зарегистрируйтесь',
     'OWN_OPTION'        => '...свой вариант',
     'ME'                => 'Я,',
@@ -50,6 +50,8 @@ $lang = array_merge($lang, array(
     'FROM'              => 'от',
     'TO'                => 'до',
     'WHEN'              => 'в',
+    'ICANBRING'         => 'Я могу подвезти',
+    'BRINGMEUP'         => 'Подвезите меня пожалуйста',
 
 ));
 

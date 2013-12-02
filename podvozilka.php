@@ -20,7 +20,7 @@ $phpbb_root_path = (defined('PHPBB_ROOT_PATH')) ? PHPBB_ROOT_PATH : './';
 $phpEx = substr(strrchr(__FILE__, '.'), 1);
 
 include($phpbb_root_path . 'common.' . $phpEx);
-include($phpbb_root_path . 'includes/functions_podvozilka.' . $phpEx);
+include($phpbb_root_path . 'includes/Podvozilka.class.' . $phpEx);
 
 // since we are grabbing the user avatar, the function is inside the functions_display.php file since RC7
 include($phpbb_root_path . 'includes/functions_display.' . $phpEx);
@@ -35,11 +35,12 @@ $user->setup('mods/podvozilka');
 $user->setup('common');
 
 #$_POST processing. Start
+$podvozilka = new Podvozilka();
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     $action = $_POST['action'];
     switch($action){
         case "add":
-            insertRow($user->data['user_id'], $_POST['data']);
+            $podvozilka->insertRow($user->data['user_id'], $_POST['data']);
         break;
     
         default:
@@ -53,6 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 
 #Assigning variables. Start
+$whattodo = $_GET[whattodo];
 $lang = $user->lang;
 
 $varToAssign = array(
@@ -68,6 +70,9 @@ $varToAssign = array(
     'FROM'              => $user->lang['FROM'],
     'TO'                => $user->lang['TO'],
     'WHEN'              => $user->lang['WHEN'],
+    'ICANBRING'         => $user->lang['ICANBRING'],
+    'BRINGMEUP'         => $user->lang['BRINGMEUP'],
+    
 );
 $template->assign_vars($varToAssign);
 
@@ -77,7 +82,7 @@ foreach ($persons as $p)
     $template->assign_block_vars('block_persons', array('VAL' => $p));
 }
 
-$places = getAllPlaces();
+$places = $podvozilka->getAllPlaces();
 foreach ($places as $id => $place)
 {
     $template->assign_block_vars('block_places', array('ID' => $id, 'PLACE' => $place));
@@ -85,12 +90,30 @@ foreach ($places as $id => $place)
 
 
 // Page title, this language variable should be defined in the language file you setup at the top of this page.
-page_header($user->lang['MY_TITLE']);
+page_header($user->lang['PODVOZILKA_TITLE']);
 #Assigning variables. Stop
+ switch($whattodo){
+    case "icanbring":
+        $templateName = 'icanbring.html';
+    break;
 
+    case "bringmeup":
+        $events = $podvozilka->getAllEvents();
+        foreach ($events as $eventId => $e)
+        {
+            $template->assign_block_vars('block_events', $e);
+        }
+        $templateName = 'bringmeup.html';
+    break;
+
+    default:
+        $templateName = 'podvozilka.html';
+    break;
+}
 $template->set_filenames(array(
-    'body' => 'podvozilka.html',
+    'body' => $templateName,
 ));
+
 
 page_footer();
 

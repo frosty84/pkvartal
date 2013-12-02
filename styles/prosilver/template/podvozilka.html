@@ -1,50 +1,16 @@
 <!-- INCLUDE overall_header.html -->
 
 <!-- IF IS_LOGGED_IN == true -->
-<form name='initial_form' method="POST" action="./podvozilka.php">
-    <input type="hidden" name="action" value="add">
-    <table cellspacing="1">
-        <tr>
-            <td>{MY_AVATAR}</td>
-            <td width="800">{ME}&nbsp;<b>{USERNAME}</b>,&nbsp;{CAN_BRING}
-                <select name="data[persons]">
-                    <option value=""></option>>
-                    <!-- BEGIN block_persons -->
-                    <option value="{block_persons.VAL}">{block_persons.VAL}</option>>
-                    <!-- END block_persons -->
-                </select>
-                {PERSON}&nbsp;
-                {FROM}
-                <select name="data[place_from]">
-                    <option value=""></option>
-                    <!-- BEGIN block_places -->
-                    <option value="{block_places.ID}">{block_places.PLACE}</option>
-                    <!-- END block_places -->
-                    <option value="999">{OWN_OPTION}</option>
-                </select>
-                {TO}
-                <select name="data[place_to]">
-                    <option value=""></option>
-                    <!-- BEGIN block_places -->
-                    <option value="{block_places.ID}">{block_places.PLACE}</option>
-                    <!-- END block_places -->
-                    <option value="999">{OWN_OPTION}</option>
-                </select>
-                {WHEN}
-                <input type="text" id="datewhen" name="data[datewhen]" value="">
-                <script type="text/javascript">
-                    $(function(){
-                            $('*[id^=date]').appendDtpicker({
-                                "inline": false,
-                                "locale": "ru"
-                            });
-                    });
-                </script>
-            </td>
-            <td><input type="submit" value="{SUBMIT}"></td>
-        </tr>
-    </table>
-</form>
+<table cellspacing="1">
+    <tr>
+        <td>{MY_AVATAR}</td>
+        <td width="800">
+            <a href="./podvozilka.php?whattodo=icanbring">{ICANBRING}</a> |
+            <a href="./podvozilka.php?whattodo=bringmeup">{BRINGMEUP}</a> |
+        </td>
+        <td><input type="submit" value="{SUBMIT}"></td>
+    </tr>
+</table>
 
 <!-- ELSE -->
 {NOT_LOGGED_ERROR}
