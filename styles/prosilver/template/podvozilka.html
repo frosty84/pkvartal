@@ -1,19 +1,26 @@
 <!-- INCLUDE overall_header.html -->
 
 <!-- IF IS_LOGGED_IN == true -->
-<table cellspacing="1">
+<table cellspacing="1" width="100%">
     <tr>
-        <td>{MY_AVATAR}</td>
-        <td width="800">
+        <td>
             <a href="./podvozilka.php?whattodo=icanbring">{ICANBRING}</a> |
             <a href="./podvozilka.php?whattodo=bringmeup">{BRINGMEUP}</a> |
         </td>
-        <td><input type="submit" value="{SUBMIT}"></td>
     </tr>
+    <!-- IF MESSAGE ne "" -->
+    <tr>
+        <td align="center"><b>{MESSAGE}</b></td>
+    </tr>
+    <!-- ENDIF -->
 </table>
 
 <!-- ELSE -->
-{NOT_LOGGED_ERROR}
+<table cellspacing="1" width="100%">
+    <tr>
+        <td>{NOT_LOGGED_ERROR}</td>
+    </tr>
+</table>
 <!-- ENDIF -->
 
 <!-- INCLUDE overall_footer.html -->

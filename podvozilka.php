@@ -40,9 +40,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     $action = $_POST['action'];
     switch($action){
         case "add":
-            $podvozilka->insertRow($user->data['user_id'], $_POST['data']);
+            $res = $podvozilka->insertRow($user->data['user_id'], $_POST['data']);
+            header('Location: ./podvozilka.php?message='.$res);
         break;
     
+        case "bringmeup":
+            $eventId = (int) $_POST['event_id'];
+            $userId = (int) $_POST['user_id'];
+            $message = $_POST['message'];
+            
+            $res = $podvozilka->insertEventRow($eventId, $userId, $message);
+            print $res;
+            exit(0);
+        break;
         default:
             #do nothing
         break;
@@ -56,22 +66,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 #Assigning variables. Start
 $whattodo = $_GET[whattodo];
 $lang = $user->lang;
+$message = $_GET['message'];
 
 $varToAssign = array(
     'MY_AVATAR'         => get_user_avatar($user->data['user_avatar'], $user->data['user_avatar_type'], $user->data['user_avatar_width'], $user->data['user_avatar_height']),
     'IS_LOGGED_IN'      => $user->data['user_id'] != ANONYMOUS,
+    'USER_ID'           => $user->data['user_id'],
+    'BACK'              => $user->lang['BACK'],
+    'COMMENTS'          => $user->lang['COMMENTS'],
+    'MESSAGE'           => $user->lang[$message],
     'USERNAME'          => $user->data['username'],
     'NOT_LOGGED_ERROR'  => $user->lang['NOT_LOGGED_ERROR'],
     'SUBMIT'            => $user->lang['SUBMIT'],
     'OWN_OPTION'        => $user->lang['OWN_OPTION'],
     'ME'                => $user->lang['ME'],
     'CAN_BRING'         => $user->lang['CAN_BRING'],
+    'CAN_BRING_ALT'     => $user->lang['CAN_BRING_ALT'],
     'PERSON'            => $user->lang['PERSON'],
     'FROM'              => $user->lang['FROM'],
     'TO'                => $user->lang['TO'],
     'WHEN'              => $user->lang['WHEN'],
     'ICANBRING'         => $user->lang['ICANBRING'],
     'BRINGMEUP'         => $user->lang['BRINGMEUP'],
+    'BRINGMEUP_ALT'     => $user->lang['BRINGMEUP_ALT'],
+    
     
 );
 $template->assign_vars($varToAssign);

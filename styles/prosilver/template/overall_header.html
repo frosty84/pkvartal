@@ -8,8 +8,8 @@
 <meta http-equiv="imagetoolbar" content="no" />
 <meta name="resource-type" content="document" />
 <meta name="distribution" content="global" />
-<meta name="keywords" content="Пражский Квартал, Львовский квартал, ЖК Аметист, форум" />
-<meta name="description" content="<!-- IF SCRIPT_NAME == "viewforum" -->{FORUM_DESC}<!-- ELSEIF SCRIPT_NAME == "viewtopic" -->{MESSAGE_TRIMMED}<!-- ELSE -->Неофициальный форум ЖК Пражский Квартал, Неофіційний форум ЖК Празький Квартал, Жилье в киеве, новостройки Киева, Петропавловская борщаговка, Обсуждение Пражского Квартала<!-- ENDIF -->" />
+<meta name="keywords" content="ЖК Пражский Квартал,Львовский квартал,ЖК Аметист,форум,Петропавловская Борщаговка,киев,жилье,pkvartal" />
+<meta name="description" content="<!-- IF SCRIPT_NAME == "viewforum" -->{FORUM_DESC}<!-- ELSEIF SCRIPT_NAME == "viewtopic" -->{MESSAGE_TRIMMED}<!-- ELSE -->Форум жильцов ЖК Пражский Квартал, ЖК Львовский Квартал и ЖК Аметист на Петропавловской Борщаговке<!-- ENDIF -->" />
 {META}
 <title><!-- IF S_IN_MCP -->{L_MCP} &bull; <!-- ELSEIF S_IN_UCP -->{L_UCP} &bull; <!-- ENDIF -->
    <!-- IF SCRIPT_NAME == "index" -->{SITENAME} - {SITE_DESCRIPTION}
@@ -25,7 +25,7 @@
    <!-- ELSEIF SCRIPT_NAME == "chat" -->{L_VIEWING_CHAT}
    <!-- ELSEIF SCRIPT_NAME == "mchat" -->{L_MCHAT_TITLE}
    <!-- ELSEIF SCRIPT_NAME == "podvozilka" -->{L_PODVOZILKA_TITLE}
-   <!-- ELSE -->Viewing Undefined page<!-- ENDIF --></title>
+   <!-- ELSE -->Форум жильцов ЖК Пражский Квартал, ЖК Львовский Квартал и ЖК Аметист на Петропавловской Борщаговке<!-- ENDIF --></title>
 
 <!-- IF S_ENABLE_FEEDS -->
 	<!-- IF S_ENABLE_FEEDS_OVERALL --><link rel="alternate" type="application/atom+xml" title="{L_FEED} - {SITENAME}" href="{U_FEED}" /><!-- ENDIF -->
@@ -157,6 +157,7 @@ hs.addSlideshow({
 
 </script>
 <!--Requirement jQuery-->
+<!--script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script-->
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 
 <!-- IF SCRIPT_NAME != "podvozilka" and S_MCHAT_ENABLE and (S_MCHAT_ON_INDEX or U_MCHAT) or S_MCHAT_ON_INDEX_WIDGET -->
@@ -167,7 +168,10 @@ hs.addSlideshow({
 <!-- ENDIF -->
 
 <!-- IF SCRIPT_NAME == "podvozilka" -->
-   <!--Load Script and Stylesheet -->
+   <script type="text/javascript" src="./styles/scripts/apprise-v2.js"></script>
+   <link rel="stylesheet" href="./styles/scripts/apprise-v2.css" type="text/css">
+
+   <script type="text/javascript" src="./styles/scripts/podvozilka.js"></script>
    <script type="text/javascript" src="./datetimepicker/jquery.simple-dtpicker.js"></script>
    <link type="text/css" href="./datetimepicker/jquery.simple-dtpicker.css" rel="stylesheet" />
    <!---->

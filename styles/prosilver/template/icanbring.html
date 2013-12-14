@@ -3,10 +3,13 @@
 <!-- IF IS_LOGGED_IN == true -->
 <form name='initial_form' method="POST" action="./podvozilka.php">
     <input type="hidden" name="action" value="add">
-    <table cellspacing="1">
+    <table cellspacing="1" width="100%">
         <tr>
-            <td>{MY_AVATAR}</td>
-            <td width="800">{ME}&nbsp;<b>{USERNAME}</b>,&nbsp;{CAN_BRING}
+            <td rowspan="2">{MY_AVATAR}</td>
+            <td rowspan="2">
+                {ME}&nbsp;<b>{USERNAME}</b>,&nbsp;{CAN_BRING}
+            </td>
+            <td>
                 <select name="data[persons]">
                     <option value=""></option>>
                     <!-- BEGIN block_persons -->
@@ -41,7 +44,13 @@
                     });
                 </script>
             </td>
-            <td><input type="submit" value="{SUBMIT}"></td>
+            <td rowspan="2"><input type="submit" value="{SUBMIT}"></td>
+        </tr>
+        <tr>
+            <td>
+                {COMMENTS}:<br/>
+                <textarea name="data[comments]"></textarea>
+            </td>
         </tr>
     </table>
 </form>

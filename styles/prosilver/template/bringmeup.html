@@ -1,24 +1,34 @@
 <!-- INCLUDE overall_header.html -->
-
+<a href="./podvozilka.php">{BACK}</a> |
+<a href="./podvozilka.php?whattodo=icanbring">{ICANBRING}</a>
 <!-- IF IS_LOGGED_IN == true -->
 <form name='initial_form' method="POST" action="./podvozilka.php">
     <input type="hidden" name="action" value="bringmeplease">
-        <!-- BEGIN block_places -->
-        <li>
-        {block_places.PLACE}!
-        </li>
-        <!-- END block_places -->
-    <table cellspacing="1">
+    <table cellspacing="1" width="100%" border>
         <!-- BEGIN block_events -->
         <tr>
             <td>{MY_AVATAR}</td>
-            <td>{block_events.id}</td>
-            <td>{block_events.persons}</td>
-            <td>{block_events.place_from}</td>
-            <td>{block_events.place_to}</td>
-            <td>{block_events.datewhen}</td>
-            <td>{block_events.comments}</td>
-            <td>{block_events.datecreation}</td>
+            <td align="center">
+                <a href="#?{block_events.USER_ID}">{block_events.USERNAME}</a>
+                {CAN_BRING_ALT}&nbsp;
+                {block_events.PERSONS}&nbsp;
+                {PERSON}&nbsp;{FROM}&nbsp;
+                {block_events.PLACE_FROM}&nbsp;
+                {TO}&nbsp;
+                {block_events.PLACE_TO}&nbsp;
+                {WHEN}&nbsp;
+                {block_events.DATEWHEN}
+            </td>
+            <td>
+                <!-- IF block_events.COMMENTS ne "" -->
+                {block_events.COMMENTS}
+                <!-- ELSE -->
+                &nbsp;
+                <!-- ENDIF -->
+            </td>
+            <td>
+                <a href="javascript:void(0)" class="bringme_prompt" id="b_{block_events.ID}_{USER_ID}">{BRINGMEUP_ALT}</a>
+            </td>
         </tr>
         <!-- END block_events -->
     </table>

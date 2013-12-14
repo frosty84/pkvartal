@@ -26,8 +26,10 @@
   <string id="currentInvocationLanguage">PHP</string>
   <string relative="path" id="import_dirname"></string>
   <boolean id="import_live">1</boolean>
+  <long id="indentWidth">2</long>
   <string id="language">PHP</string>
   <string id="lastInvocation">Project</string>
   <string id="phpDefaultInterpreter">C:\PHP5\php.exe</string>
+  <long id="tabWidth">4</long>
 </preference-set>
 </project>

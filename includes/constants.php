@@ -288,4 +288,5 @@ define('MAIL_TABLE',                $table_prefix . 'mail');
 //Podvozilka
 define('PODVOZILKA_PLACES_TABLE', $table_prefix . 'podvozilka_places');
 define('PODVOZILKA_EVENTS_TABLE', $table_prefix . 'podvozilka_events');
+define('PODVOZILKA_EVENTS_LOG_TABLE', $table_prefix . 'podvozilka_events_log');
 ?>

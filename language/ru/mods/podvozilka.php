@@ -38,20 +38,23 @@ if (empty($lang) || !is_array($lang))
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
 
 $lang = array_merge($lang, array(
-    'EXAMPLE'           => 'Example',
-    'DEMO'              => 'Demo',
-    'TIME_NOW'          => 'The time right now is %s',
+    'BACK'              => 'Назад',
+    'SUCCESS'            => 'Ваше предложение успешно добавлено, спасибо!',
+    'FAIL'              => 'Что-то пошло не так, попробуйте позже.',
+    'COMMENTS'          => 'Комментарии',
     'PODVOZILKA_TITLE'  => 'Подвозилка',
     'NOT_LOGGED_ERROR'  => 'Войдите или зарегистрируйтесь',
     'OWN_OPTION'        => '...свой вариант',
     'ME'                => 'Я,',
     'CAN_BRING'         => 'могу подвезти',
+    'CAN_BRING_ALT'     => 'может подвезти',    
     'PERSON'            => 'человек',
     'FROM'              => 'от',
     'TO'                => 'до',
     'WHEN'              => 'в',
     'ICANBRING'         => 'Я могу подвезти',
     'BRINGMEUP'         => 'Подвезите меня пожалуйста',
+    'BRINGMEUP_ALT'     => 'Подвезите меня!!!',
 
 ));
 
