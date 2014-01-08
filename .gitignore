@@ -1,0 +1,3 @@
+cache/*.html.php
+cache/data_*.php
+cache/sql_*.php
