@@ -110,6 +110,7 @@ function recent_topics_generate_pagination($base_url, $num_items, $per_page, $st
 function display_recent_topics($topics_per_page, $num_pages, $excluded_topics, $tpl_loopname = 'recenttopicrow', $spec_forum_id = 0, $include_subforums = true)
 {
 	global $auth, $cache, $config, $db, $template, $user;
+	global $phpbb_seo;
 	global $phpbb_root_path, $phpEx;
 
 	/**
@@ -290,6 +291,20 @@ function display_recent_topics($topics_per_page, $num_pages, $excluded_topics, $
 	{
 		$topic_id = $row['topic_id'];
 		$forum_id = $row['forum_id'];
+		
+		// www.phpBB-SEO.com SEO TOOLKIT BEGIN
+		if (!empty($row['topic_url'])) {
+			$phpbb_seo->prepare_iurl($row, 'topic', '');
+		} else {
+			if ($phpbb_seo->modrtype > 2) {
+				$row['topic_title'] = censor_text($row['topic_title']);
+			}
+			$parent_forum = $row['topic_type'] == POST_GLOBAL ? $phpbb_seo->seo_static['global_announce'] : (!empty($phpbb_seo->seo_url['forum'][$forum_id]) ? $phpbb_seo->seo_url['forum'][$forum_id] : false);
+			if ($parent_forum) {
+				$phpbb_seo->prepare_iurl($row, 'topic', $parent_forum);
+			}
+		}
+		// www.phpBB-SEO.com SEO TOOLKIT END
 
 		// Cheat for Global Announcements on the unread-link: copied from search.php
 		if (!$forum_id && !$ga_forum_id)

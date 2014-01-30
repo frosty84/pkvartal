@@ -1,3 +1,6 @@
 cache/*.html.php
 cache/data_*.php
 cache/sql_*.php
+__sitemap/*.xml
+sitemap/*
+phpbb_seo/cache/*cache*
