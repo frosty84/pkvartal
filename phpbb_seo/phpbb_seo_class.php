@@ -373,9 +373,6 @@ class phpbb_seo extends setup_phpbb_seo {
 	function url_rewrite($url, $params = false, $is_amp = true, $session_id = false) {
 		global $phpEx, $user, $_SID, $_EXTRA_URL, $phpbb_root_path;
 		
-		if(strpos('topic', $url) !== false){
-			$test = 1;
-		}
 		$qs = $anchor = '';
 		$this->get_vars = array();
 		$amp_delim = ($is_amp) ? '&amp;' : '&';
