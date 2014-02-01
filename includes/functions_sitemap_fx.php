@@ -22,18 +22,36 @@ if (!defined('IN_PHPBB'))
 function sitemap_fx_forum($forum_id)
 {
 	global $db, $phpEx, $config;
+	global $phpbb_seo;
+	global $phpbb_root_path;
 	$url = generate_board_url();
 
 	$sitemap_file = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
 	$sitemap_file .= "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
 
-	$sql = 'SELECT topic_id, forum_id, topic_last_post_time, topic_time, topic_type, topic_replies
+	$sql = 'SELECT topic_id, forum_id, topic_last_post_time, topic_time, topic_type, topic_replies, topic_url, topic_title
 		FROM ' . TOPICS_TABLE . '
 			WHERE forum_id = ' . $forum_id;
 	$result = $db->sql_query($sql);
 		
 	while ($row = $db->sql_fetchrow($result))
 	{
+		$topic_id = $row['topic_id'];
+		
+		// www.phpBB-SEO.com SEO TOOLKIT BEGIN
+		if (!empty($row['topic_url'])) {
+			$phpbb_seo->prepare_iurl($row, 'topic', '');
+		} else {
+			if ($phpbb_seo->modrtype > 2) {
+				$row['topic_title'] = censor_text($row['topic_title']);
+			}
+			$parent_forum = $row['topic_type'] == POST_GLOBAL ? $phpbb_seo->seo_static['global_announce'] : (!empty($phpbb_seo->seo_url['forum'][$forum_id]) ? $phpbb_seo->seo_url['forum'][$forum_id] : false);
+			if ($parent_forum) {
+				$phpbb_seo->prepare_iurl($row, 'topic', $parent_forum);
+			}
+		}
+		// www.phpBB-SEO.com SEO TOOLKIT END
+		
 		if ($row['topic_last_post_time'] > 0)
 		{
 			$last_mod = date('Y-m-d\TH:i:s+00:00', $row['topic_last_post_time']);
@@ -44,16 +62,20 @@ function sitemap_fx_forum($forum_id)
 		}
 		$pages = $row['topic_replies'] / $config['posts_per_page'];
 		$pages = (int) $pages;
+		
+		
 		for ($i=0; $i<=$pages; $i++)
 		{
 			$sitemap_file .= "<url>\n";
 			if ($i == 0)
 			{
-				$sitemap_file .= "<loc>" . $url . "/viewtopic." . $phpEx . "?f=" . $row['forum_id'] . "&amp;t=" . $row['topic_id'] . "</loc>\n";
+		                $view_topic_url = append_sid("{$phpbb_root_path}viewtopic.$phpEx", 'f=' . $forum_id . '&amp;t=' . $row['topic_id']);
+				$sitemap_file .= "<loc>".$view_topic_url."</loc>\n";
 			}
 			else
 			{
-				$sitemap_file .= "<loc>" . $url . "/viewtopic." . $phpEx . "?f=" . $row['forum_id'] . "&amp;t=" . $row['topic_id'] . "&amp;start=" . $i * $config['posts_per_page'] . "</loc>\n";
+				$view_topic_url = append_sid("{$phpbb_root_path}viewtopic.$phpEx", 'f=' . $forum_id . '&amp;t=' . $row['topic_id']."&amp;start=" . $i * $config['posts_per_page']);
+				$sitemap_file .= "<loc>".$view_topic_url."</loc>\n";
 			}
 			$sitemap_file .= "<lastmod>" . $last_mod . "</lastmod>\n";
 			switch ($row['topic_type'])
@@ -90,12 +112,13 @@ function sitemap_fx_forum($forum_id)
 function sitemap_fx_global($forum_id)
 {
 	global $db, $phpEx, $config;
+	global $phpbb_root_path;
 	$url = generate_board_url();
 
 	$sitemap_file = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
 	$sitemap_file .= "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
 
-	$sql = 'SELECT topic_id, forum_id, topic_title, topic_last_post_time, topic_time, topic_type, topic_replies
+	$sql = 'SELECT topic_id, forum_id, topic_title, topic_last_post_time, topic_time, topic_type, topic_replies, topic_url, topic_title
 			FROM ' . TOPICS_TABLE . '
 			WHERE topic_type = ' . POST_GLOBAL;
 	$result = $db->sql_query($sql);
@@ -105,6 +128,22 @@ function sitemap_fx_global($forum_id)
 
 		while ($row = $db->sql_fetchrow($result))
 		{
+			$topic_id = $row['topic_id'];
+			
+			// www.phpBB-SEO.com SEO TOOLKIT BEGIN
+			if (!empty($row['topic_url'])) {
+				$phpbb_seo->prepare_iurl($row, 'topic', '');
+			} else {
+				if ($phpbb_seo->modrtype > 2) {
+					$row['topic_title'] = censor_text($row['topic_title']);
+				}
+				$parent_forum = $row['topic_type'] == POST_GLOBAL ? $phpbb_seo->seo_static['global_announce'] : (!empty($phpbb_seo->seo_url['forum'][$forum_id]) ? $phpbb_seo->seo_url['forum'][$forum_id] : false);
+				if ($parent_forum) {
+					$phpbb_seo->prepare_iurl($row, 'topic', $parent_forum);
+				}
+			}
+			// www.phpBB-SEO.com SEO TOOLKIT END
+			
 			if ($row['topic_last_post_time'] > 0)
 			{
 				$last_mod = date('Y-m-d\TH:i:s+00:00', $row['topic_last_post_time']);
@@ -120,11 +159,13 @@ function sitemap_fx_global($forum_id)
 				$sitemap_file .= "<url>\n";
 				if ($i == 0)
 				{
-					$sitemap_file .= "<loc>" . $url . "/viewtopic." . $phpEx . "?f=" . $forum_id . "&amp;t=" . $row['topic_id'] . "</loc>\n";
+					$view_topic_url = append_sid("{$phpbb_root_path}viewtopic.$phpEx", 'f=' . $forum_id . '&amp;t=' . $row['topic_id']);
+					$sitemap_file .= "<loc>".$view_topic_url."</loc>\n";
 				}
 				else
 				{
-					$sitemap_file .= "<loc>" . $url . "/viewtopic." . $phpEx . "?f=" . $forum_id . "&amp;t=" . $row['topic_id'] . "&amp;start=" . $i * $config['posts_per_page'] . "</loc>\n";
+					$view_topic_url = append_sid("{$phpbb_root_path}/viewtopic.$phpEx", 'f=' . $forum_id . '&amp;t=' . $row['topic_id']."&amp;start=" . $i * $config['posts_per_page']);
+					$sitemap_file .= "<loc>".$view_topic_url."</loc>\n";
 				}
 				$sitemap_file .= "<lastmod>" . $last_mod . "</lastmod>\n";
 				$sitemap_file .= "<changefreq>" . $config['sitemap_freq_3'] . "</changefreq>\n";
@@ -144,8 +185,10 @@ function sitemap_fx_global($forum_id)
 		{
 			if ($row['forum_type'] == 1)
 			{
+				$view_forum_url = append_sid("{$phpbb_root_path}viewforum.$phpEx", 'f=' . $row['forum_id']);
+				
 				$sitemap_file .= "<url>\n";
-				$sitemap_file .= "<loc>" . $url . "/viewforum." . $phpEx . "?f=" . $row['forum_id'] . "</loc>\n";
+				$sitemap_file .= "<loc>".$view_forum_url."</loc>\n";
 				$sitemap_file .= "<lastmod>" . date('Y-m-d\TH:i:s+00:00', time()) . "</lastmod>\n";
 				$sitemap_file .= "<changefreq>daily</changefreq>\n";
 				$sitemap_file .= "<priority>1</priority>\n";
