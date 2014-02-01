@@ -4,3 +4,9 @@ cache/sql_*.php
 __sitemap/*.xml
 sitemap/*
 phpbb_seo/cache/*cache*
+.htaccess
+cache/*.lock
+files/*
+datetimepicker/.gitignore
+images/avatars/upload/*
+error_log
