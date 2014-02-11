@@ -31,6 +31,7 @@ class acp_forums
 		global $config, $phpbb_admin_path, $phpbb_root_path, $phpEx;
 
 		$user->add_lang('acp/forums');
+		$user->add_lang('mods/custom_header');
 		$this->tpl_name = 'acp_forums';
 		$this->page_title = 'ACP_MANAGE_FORUMS';
 
@@ -132,6 +133,7 @@ class acp_forums
 						'forum_rules_bitfield'	=> '',
 						'forum_rules_link'		=> request_var('forum_rules_link', ''),
 						'forum_image'			=> request_var('forum_image', ''),
+						'forum_logo' 			=> request_var('forum_logo', ''),
 						'forum_style'			=> request_var('forum_style', 0),
 						'display_subforum_list'	=> request_var('display_subforum_list', false),
 						'display_on_index'		=> request_var('display_on_index', false),
@@ -517,6 +519,21 @@ class acp_forums
 				}
 
 				$styles_list = style_select($forum_data['forum_style'], true);
+				
+				// Custom Header Logo
+				$imglist = filelist($phpbb_root_path . $config['logo_path'], '');
+				$logo_list = '<option value="">' . $user->lang['NO_LOGO'] . '</option>';
+
+				foreach ($imglist as $path => $img_ary)
+				{
+					foreach ($img_ary as $img)
+					{
+						$img = $path . $img;
+						$selected = ($action == 'edit' && $img == $forum_data['forum_logo']) ? ' selected="selected"' : '';
+						$logo_list .= '<option value="' . htmlspecialchars($img) . '"' . $selected . '>' . htmlspecialchars($img) . '</option>';
+					}
+				}
+				// Custom Header Logo
 
 				$statuslist = '<option value="' . ITEM_UNLOCKED . '"' . (($forum_data['forum_status'] == ITEM_UNLOCKED) ? ' selected="selected"' : '') . '>' . $user->lang['UNLOCKED'] . '</option><option value="' . ITEM_LOCKED . '"' . (($forum_data['forum_status'] == ITEM_LOCKED) ? ' selected="selected"' : '') . '>' . $user->lang['LOCKED'] . '</option>';
 
@@ -628,6 +645,7 @@ class acp_forums
 					'S_STATUS_OPTIONS'			=> $statuslist,
 					'S_PARENT_OPTIONS'			=> $parents_list,
 					'S_STYLES_OPTIONS'			=> $styles_list,
+					'S_LOGO_OPTIONS' 			=> $logo_list,
 					'S_FORUM_OPTIONS'			=> make_forum_select(($action == 'add') ? $forum_data['parent_id'] : false, ($action == 'edit') ? $forum_data['forum_id'] : false, false, false, false),
 					'S_SHOW_DISPLAY_ON_INDEX'	=> $s_show_display_on_index,
 					'S_FORUM_POST'				=> ($forum_data['forum_type'] == FORUM_POST) ? true : false,

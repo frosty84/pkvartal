@@ -9,3 +9,6 @@ CREATE TABLE `phpbb_podvozilka_events_log` (
   KEY `event_id` (`event_id`),
   CONSTRAINT `phpbb_podvozilka_events_log_fk` FOREIGN KEY (`event_id`) REFERENCES `phpbb_podvozilka_events` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+ALTER TABLE phpbb_forums ADD forum_logo VARCHAR(255) NOT NULL;
+INSERT INTO phpbb_config (config_name, config_value) VALUES ('logo_path', 'images/logos');

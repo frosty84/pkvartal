@@ -4522,6 +4522,26 @@ function page_header($page_title = '', $display_online_list = true, $item_id = 0
 	$board_url = generate_board_url() . '/';
 	$web_path = (defined('PHPBB_USE_BOARD_URL_PATH') && PHPBB_USE_BOARD_URL_PATH) ? $board_url : $phpbb_root_path;
 
+	// Custom Header Logo
+	$site_logo = $user->img('site_logo');
+
+	if (!empty($_REQUEST['f']) && !is_array($_REQUEST['f'])) 
+	{
+		$forum_id = request_var('f', 0);
+		$sql = 'SELECT forum_logo
+			FROM ' . FORUMS_TABLE . '
+			WHERE forum_id = ' . $forum_id;
+		$result = $db->sql_query($sql);
+		$forum_logo = $db->sql_fetchrow($result);
+		$db->sql_freeresult($result);
+
+		if (!empty($forum_logo['forum_logo']))
+		{
+			$site_logo = '<img src="' . $phpbb_root_path . $config['logo_path'] . '/' . $forum_logo['forum_logo'] . '">';
+		}
+	}
+	// Custom Header Logo
+
 	// Which timezone?
 	$tz = ($user->data['user_id'] != ANONYMOUS) ? strval(doubleval($user->data['user_timezone'])) : strval(doubleval($config['board_timezone']));
 
@@ -4691,7 +4711,7 @@ function page_header($page_title = '', $display_online_list = true, $item_id = 0
 		'T_RANKS'				=> $config['ranks_path'],
 		'T_UPLOAD'				=> $config['upload_path'],
 
-		'SITE_LOGO_IMG'			=> $user->img('site_logo'),
+		'SITE_LOGO_IMG'			=> $site_logo,
 
 		'A_COOKIE_SETTINGS'		=> addslashes('; path=' . $config['cookie_path'] . ((!$config['cookie_domain'] || $config['cookie_domain'] == 'localhost' || $config['cookie_domain'] == '127.0.0.1') ? '' : '; domain=' . $config['cookie_domain']) . ((!$config['cookie_secure']) ? '' : '; secure')),
 	));
