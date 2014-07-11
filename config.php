@@ -24,6 +24,7 @@ $load_extensions = '';
 $queue_interval = 20;
 
 @define('PHPBB_INSTALLED', true);
+@define('AD_FORUM_ID', 11);
 // @define('DEBUG', true);
 // @define('DEBUG_EXTRA', true);
 ?>

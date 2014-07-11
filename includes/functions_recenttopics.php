@@ -120,6 +120,7 @@ function display_recent_topics($topics_per_page, $num_pages, $excluded_topics, $
 	$excluded_topic_ids = explode(', ', $excluded_topics);
 	$total_limit	= $topics_per_page * $num_pages;
 	$ga_forum_id	= 0; // Forum id we use for global announcements
+	$ad_is_hidden = in_array(66613, explode("-", $user->data['user_category_collapse']));
 
 	/**
 	* Get the forums we take our topics from
@@ -135,6 +136,13 @@ function display_recent_topics($topics_per_page, $num_pages, $excluded_topics, $
 		}
 	}
 	$forum_ids = array_unique($forum_ary);
+	if($ad_is_hidden && defined('AD_FORUM_ID') && in_array(AD_FORUM_ID, $forum_ids)){
+		foreach($forum_ids as $key => $forum_id){
+			if($forum_ids[$key] == AD_FORUM_ID){
+				unset($forum_ids[$key]);
+			}
+		}
+	}
 
 	if (!sizeof($forum_ids))
 	{

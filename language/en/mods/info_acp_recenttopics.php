@@ -19,6 +19,10 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	'RECENT_TOPICS'						=> 'Recent topics',
+	'NO_ADS'						=> 'Hide Ads',
+	'SHOW_ADS'						=> 'Show Ads',
+	'SHOW_ADS_DESCR'					=> 'Show messages from Advertisement forum here',
+	'NO_ADS_DESCR'						=> 'No messages from Advertisement forum will be shown here',
 	'RECENT_TOPICS_MOD'					=> '"Recent topics" MOD',
 	'RT_CONFIG'							=> 'Configuration',
 	'RT_ANTI_TOPICS'					=> 'Excluded topics',

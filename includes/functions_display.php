@@ -298,7 +298,7 @@ function display_forums($root_data = '', $display_moderators = true, $return_mod
 			trigger_error('NO_FORUM');
 		}
 		
-		if($forum_id != 9999){
+		if(!in_array($forum_id, array(9999, 66613))){
 			$sql_from = FORUMS_TABLE . ' f';
 			$sql = "SELECT f.forum_id FROM $sql_from WHERE f.forum_id = $forum_id";
 			$result = $db->sql_query($sql);

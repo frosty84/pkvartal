@@ -18,7 +18,10 @@
 		<ul class="topiclist">
 			<li class="header">
 				<dl class="icon">
-				<dt>{L_RECENT_TOPICS}</dt>
+				<dt>
+					{L_RECENT_TOPICS}
+					<!-- IF SHOW_HIDE_AD_BUTTON -->&nbsp;<a title="<!-- IF AD_IS_HIDDEN -->{L_SHOW_ADS_DESCR}<!-- ELSE -->{L_NO_ADS_DESCR}<!-- ENDIF -->" href="{AD_COLLAPSEFORUM}">[<!-- IF AD_IS_HIDDEN -->{L_SHOW_ADS}<!-- ELSE -->{L_NO_ADS}<!-- ENDIF -->]</a>&nbsp;<!-- ENDIF -->
+				</dt>
 					<dd class="posts">{L_REPLIES}</dd>
 					<dd class="views">{L_VIEWS}</dd>
 					<dd class="lastpost"><span>{L_LAST_POST}</span></dd>
