@@ -85,9 +85,10 @@ class Podvozilka {
                         left join ".USERS_TABLE." u on u.`user_id` = e.`user_id`
                         ";
 		$result = $db->sql_query($sql);
+		$count = 0;
 		while ($row = $db->sql_fetchrow($result))	
 		{
-			$events[] = $row;
+			$events[$count++] = $row;
 		}
 		$db->sql_freeresult($result);
                 

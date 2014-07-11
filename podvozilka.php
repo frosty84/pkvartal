@@ -121,6 +121,7 @@ page_header($user->lang['PODVOZILKA_TITLE']);
         {
             $template->assign_block_vars('block_events', $e);
         }
+        $template->assign_vars(array('EVENTS_COUNT' => count($events)));
         $templateName = 'bringmeup.html';
     break;
 
