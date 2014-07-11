@@ -4633,7 +4633,7 @@ function page_header($page_title = '', $display_online_list = true, $item_id = 0
 	'AD_COLLAPSEFORUM'	=> append_sid("{$phpbb_root_path}index.$phpEx", 'mark=collapse&amp;f=66613'),
 	'MCHAT_IS_HIDDEN'	=> in_array(9999, explode("-", $user->data['user_category_collapse'])),	//MOD: Collapse categories
 	'AD_IS_HIDDEN'		=> in_array(66613, explode("-", $user->data['user_category_collapse'])),//MOD: Collapse categories
-	'SHOW_HIDE_AD_BUTTON'   => defined('AD_FORUM_ID') && $row['user_id'] != ANONYMOUS,
+	'SHOW_HIDE_AD_BUTTON'   => defined('AD_FORUM_ID') && $user->data['user_id'] != ANONYMOUS,
         // END mChat Mod
 		'U_SEARCH_SELF'			=> append_sid("{$phpbb_root_path}search.$phpEx", 'search_id=egosearch'),
 		'U_SEARCH_NEW'			=> append_sid("{$phpbb_root_path}search.$phpEx", 'search_id=newposts'),
